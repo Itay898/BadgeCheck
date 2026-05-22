@@ -8,9 +8,11 @@ import { cn } from "@/lib/utils";
 export const badgeCheckResultSchema = z.object({
   plateNumber: z.string().describe("The license plate number that was checked"),
   isVerified: z.boolean().describe("Whether the vehicle has a valid disability badge"),
-  ownerName: z.string().optional().describe("Name of the badge holder if available"),
-  expiryDate: z.string().optional().describe("Badge expiry date in YYYY-MM-DD format if available"),
-  badgeType: z.string().optional().describe("Type of disability badge if available"),
+  issueDate: z
+    .string()
+    .optional()
+    .describe("Badge issuance date in YYYY-MM-DD format if available"),
+  badgeType: z.string().optional().describe("Disability badge type code if available"),
   checkedAt: z.string().describe("ISO timestamp of when the check was performed"),
   errorMessage: z.string().optional().describe("Error message if the check failed"),
 });
@@ -49,8 +51,7 @@ function formatDate(iso: string | undefined, fmt: Intl.DateTimeFormat): string |
 export function BadgeCheckResult({
   plateNumber,
   isVerified,
-  ownerName,
-  expiryDate,
+  issueDate,
   badgeType,
   checkedAt,
   errorMessage,
@@ -86,9 +87,11 @@ export function BadgeCheckResult({
   const rows =
     tone === "success"
       ? ([
-          ownerName && { label: "שם בעל התו", value: ownerName },
-          badgeType && { label: "סוג תו", value: badgeType },
-          expiryDate && { label: "תוקף", value: formatDate(expiryDate, dateFmt) ?? expiryDate },
+          badgeType && { label: "סוג תג", value: badgeType },
+          issueDate && {
+            label: "תאריך הנפקה",
+            value: formatDate(issueDate, dateFmt) ?? issueDate,
+          },
         ].filter(Boolean) as { label: string; value: string }[])
       : [];
 
@@ -126,7 +129,7 @@ export function BadgeCheckResult({
           </div>
 
           {rows.length > 0 && (
-            <dl className="mt-5 grid sm:grid-cols-3 gap-y-3 sm:gap-y-0 sm:gap-x-6 border-t border-border pt-4">
+            <dl className="mt-5 grid sm:grid-cols-2 gap-y-3 sm:gap-y-0 sm:gap-x-6 border-t border-border pt-4">
               {rows.map((r) => (
                 <div key={r.label}>
                   <dt className="text-xs text-muted-foreground">{r.label}</dt>

@@ -13,8 +13,7 @@ type ResultState =
   | {
       status: "verified" | "not-found";
       plate: string;
-      ownerName?: string | null;
-      expiryDate?: string | null;
+      issueDate?: string | null;
       badgeType?: string | null;
       checkedAt: string;
     }
@@ -88,8 +87,7 @@ export function BadgeCheckWidget({ embedded = false }: { embedded?: boolean }) {
       setState({
         status: data.isVerified ? "verified" : "not-found",
         plate: data.plateNumber ?? cleaned,
-        ownerName: data.ownerName,
-        expiryDate: data.expiryDate,
+        issueDate: data.issueDate,
         badgeType: data.badgeType,
         checkedAt: data.checkedAt ?? new Date().toISOString(),
       });
@@ -218,11 +216,10 @@ export function BadgeCheckWidget({ embedded = false }: { embedded?: boolean }) {
                 plate={state.plate}
                 checkedAt={state.checkedAt}
                 rows={[
-                  state.ownerName && { label: "שם בעל התו", value: state.ownerName },
-                  state.badgeType && { label: "סוג תו", value: state.badgeType },
-                  state.expiryDate && {
-                    label: "תוקף",
-                    value: formatHebrewDate(state.expiryDate) ?? state.expiryDate,
+                  state.badgeType && { label: "סוג תג", value: state.badgeType },
+                  state.issueDate && {
+                    label: "תאריך הנפקה",
+                    value: formatHebrewDate(state.issueDate) ?? state.issueDate,
                   },
                 ].filter(Boolean) as { label: string; value: string }[]}
                 onReset={reset}
@@ -321,7 +318,7 @@ function ResultCard({ tone, icon, title, plate, description, checkedAt, rows, on
           <LicensePlate plate={plate} className="mt-4" />
 
           {rows && rows.length > 0 && (
-            <dl className="mt-5 grid sm:grid-cols-3 gap-y-3 sm:gap-y-0 sm:gap-x-6 border-t border-border pt-4">
+            <dl className="mt-5 grid sm:grid-cols-2 gap-y-3 sm:gap-y-0 sm:gap-x-6 border-t border-border pt-4">
               {rows.map((r) => (
                 <div key={r.label}>
                   <dt className="text-xs text-muted-foreground">{r.label}</dt>
