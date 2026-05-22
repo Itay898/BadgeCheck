@@ -22,8 +22,7 @@ export const tools: TamboTool[] = [
     outputSchema: z.object({
       plateNumber: z.string(),
       isVerified: z.boolean(),
-      ownerName: z.string().optional().nullable(),
-      expiryDate: z.string().optional().nullable(),
+      issueDate: z.string().optional().nullable(),
       badgeType: z.string().optional().nullable(),
       checkedAt: z.string(),
       errorMessage: z.string().optional().nullable(),
@@ -35,7 +34,7 @@ export const components: TamboComponent[] = [
   {
     name: "BadgeCheckResult",
     description:
-      "Displays the result of an Israeli disability badge (תו נכה) check for a vehicle. Shows the license plate, whether the badge is valid, owner name, expiry date, and badge type. Use this after calling checkVehicleBadge.",
+      "Displays the result of an Israeli disability badge (תו נכה) check for a vehicle. Shows the license plate, whether the badge is valid, the badge issuance date, and the badge type. Use this after calling checkVehicleBadge.",
     component: BadgeCheckResult,
     propsSchema: badgeCheckResultSchema,
   },
