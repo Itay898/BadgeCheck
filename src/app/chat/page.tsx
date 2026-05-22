@@ -1,23 +1,15 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { MessageThreadFull } from "@/components/tambo/message-thread-full";
 import { useMcpServers } from "@/components/tambo/mcp-config-modal";
+import { SiteLogo } from "@/components/site/SiteLogo";
 import { components, tools } from "@/lib/tambo";
 import { useAnonymousUserKey } from "@/lib/use-anonymous-user-key";
 import { TamboProvider } from "@tambo-ai/react";
 
-/**
- * Home page component that renders the Tambo chat interface.
- *
- * @remarks
- * The `NEXT_PUBLIC_TAMBO_URL` environment variable specifies the URL of the Tambo server.
- * You do not need to set it if you are using the default Tambo server.
- * It is only required if you are running the API server locally.
- *
- * @see {@link https://github.com/tambo-ai/tambo/blob/main/CONTRIBUTING.md} for instructions on running the API server locally.
- */
-export default function Home() {
-  // Load MCP server configurations
+export default function ChatPage() {
   const mcpServers = useMcpServers();
   const userKey = useAnonymousUserKey();
 
@@ -30,8 +22,26 @@ export default function Home() {
       mcpServers={mcpServers}
       userKey={userKey}
     >
-      <div className="h-screen">
-        <MessageThreadFull className="max-w-4xl mx-auto"/>
+      <div className="flex h-screen flex-col">
+        {/* Slim top bar — gives chat users a clear way back to the site */}
+        <header className="shrink-0 border-b border-border bg-background">
+          <div className="mx-auto flex h-14 max-w-2xl items-center justify-between gap-4 px-4">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <ArrowLeft size={16} aria-hidden />
+              חזרה לאתר
+            </Link>
+            <Link href="/" className="rounded-md transition-opacity hover:opacity-90">
+              <SiteLogo />
+            </Link>
+          </div>
+        </header>
+
+        <div className="min-h-0 flex-1">
+          <MessageThreadFull className="max-w-2xl mx-auto" />
+        </div>
       </div>
     </TamboProvider>
   );
