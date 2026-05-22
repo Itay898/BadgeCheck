@@ -139,7 +139,11 @@ const ThreadContentMessages = React.forwardRef<
         const messageContentClassName =
           message.role === "assistant"
             ? "text-foreground font-sans"
-            : "text-foreground bg-container hover:bg-backdrop font-sans";
+            : // `bg-container` is near-black in light mode (near-white in dark);
+              // it must pair with `text-background` (the inverse) so the user's
+              // text stays readable. `text-foreground` here was the same tone as
+              // the bubble — ~1:1 contrast, effectively invisible.
+              "text-background bg-container hover:opacity-90 font-sans";
 
         return (
           <div
