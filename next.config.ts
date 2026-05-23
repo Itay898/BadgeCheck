@@ -11,6 +11,20 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // 308-redirect the Render-assigned hostname to the canonical custom domain
+  // so the onrender.com host doesn't compete in search results or serve a
+  // sitemap whose URLs live on a different host.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "badgecheck.onrender.com" }],
+        destination: "https://tavcheck.co.il/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   // Stub optional peer deps from @standard-community/standard-json
   webpack: (config) => {
     config.resolve.alias = {
