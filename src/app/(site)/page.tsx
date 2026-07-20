@@ -103,6 +103,41 @@ export default function HomePage() {
         </Container>
       </section>
 
+      {/* POPULAR ANSWERS — plain text links push authority to the key guides */}
+      <section className="py-12 sm:py-16 border-b border-border bg-paper-2">
+        <Container>
+          <SectionHeader
+            eyebrow="קיצורי דרך"
+            title="התשובות המבוקשות ביותר"
+            description="המדריכים שעונים על השאלות שהכי הרבה אנשים מגיעים איתן."
+          />
+          <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
+            {[
+              { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב — מדריך קצר" },
+              { href: "/articles/check-tav-nikkeh-by-id-number", label: "בדיקת תו נכה לפי תעודת זהות — מה אפשרי ומה לא" },
+              { href: "/articles/ministry-personal-area-guide", label: "האזור האישי של משרד התחבורה למחזיקי תו" },
+              { href: "/articles/online-renewal-overview", label: "חידוש תו אונליין: מה לבדוק לפני שמתחילים" },
+              { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר — מעבר לחניה" },
+              { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="group inline-flex items-center gap-2 text-[15.5px] font-medium text-foreground/85 hover:text-brand-strong transition-colors"
+                >
+                  <ArrowLeft
+                    size={15}
+                    aria-hidden
+                    className="text-brand shrink-0 transition-transform group-hover:-translate-x-0.5"
+                  />
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
       {/* FEATURED */}
       {featured && (
         <section className="py-[var(--section-pad-y)]">
