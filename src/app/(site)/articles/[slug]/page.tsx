@@ -36,8 +36,10 @@ export async function generateMetadata({
     ? [{ url: article.coverImage, alt: article.title }]
     : undefined;
   return {
-    title: article.title,
-    description: article.dek,
+    // SERP snippet uses the SEO variants; OpenGraph/Twitter below keep the
+    // editorial headline, which reads better in social link previews.
+    title: article.seoTitle ?? article.title,
+    description: article.seoDescription ?? article.dek,
     alternates: { canonical: path },
     openGraph: {
       type: "article",

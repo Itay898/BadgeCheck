@@ -15,6 +15,10 @@ export type Article = {
   slug: string;
   title: string;
   dek: string;
+  /** SERP-optimized <title>; falls back to `title`. Doesn't affect the on-page H1. */
+  seoTitle?: string;
+  /** SERP-optimized meta description; falls back to `dek`. */
+  seoDescription?: string;
   category: (typeof categories)[number]["slug"];
   author: string;
   publishedAt: string;
@@ -478,6 +482,9 @@ export const articles: Article[] = [
   {
     slug: "ministry-personal-area-guide",
     title: "האזור האישי של משרד התחבורה: מדריך למחזיקי תו נכה",
+    seoTitle: "משרד התחבורה תו נכה — אזור אישי: כניסה, סטטוס בקשה וחידוש",
+    seoDescription:
+      "איך נכנסים לאזור האישי של משרד התחבורה, איפה בודקים סטטוס בקשה לתו נכה ותוקף התו, איך מחדשים אונליין — ומה עושים כשההזדהות הממשלתית לא עוברת.",
     dek: "סטטוס בקשה, תוקף התו, חידוש דיגיטלי ועדכון פרטים — כל אלה עוברים דרך האזור האישי. איך נכנסים, מה מוצאים בפנים, ומה עושים כשההזדהות לא עוברת.",
     category: "guides",
     author: BYLINE,
