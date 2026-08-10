@@ -18,6 +18,16 @@ export const site = {
   tagline: "בדיקה פתוחה של תו נכה",
   description:
     "בודקים תוקף תו נכה לפי מספר רכב מול מאגר המידע הציבורי של ממשלת ישראל. לצד הכלי — מבט מסודר על התהליך, הזכויות והכללים.",
+  /**
+   * Search-result copy (meta title/description). Kept separate from
+   * `description`, which doubles as on-site footer/JSON-LD copy — SERP
+   * snippets are written keyword-first with explicit value props for CTR.
+   */
+  seo: {
+    title: "בדיקת תו נכה לפי מספר רכב — חינם ובזמן אמת | תו צ׳ק",
+    description:
+      "הזינו מספר רכב וקבלו תשובה מיידית אם יש לרכב תו נכה בתוקף — ישירות מהמאגר הרשמי של ממשלת ישראל. חינם, בלי הרשמה ובלי לשמור פרטים. כולל מדריכים וזכויות.",
+  },
   url: siteUrl,
   contact: {
     email: contactEmail,

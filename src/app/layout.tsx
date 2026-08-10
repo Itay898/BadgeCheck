@@ -20,10 +20,10 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — בדיקת תו נכה לפי מספר רכב`,
+    default: site.seo.title,
     template: `%s · ${site.name}`,
   },
-  description: site.description,
+  description: site.seo.description,
   alternates: {
     canonical: "/",
     languages: { "he-IL": "/" },
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — בדיקת תו נכה לפי מספר רכב`,
-    description: site.description,
+    title: site.seo.title,
+    description: site.seo.description,
   },
 };
 
