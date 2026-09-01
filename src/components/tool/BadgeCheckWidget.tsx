@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, ShieldCheck, ShieldX, AlertTriangle, RotateCcw } from "lucide-react";
 import { checkVehicleBadge } from "@/services/badge-check";
@@ -212,9 +213,11 @@ export function BadgeCheckWidget({ embedded = false }: { embedded?: boolean }) {
               <ResultCard
                 tone="success"
                 icon={<ShieldCheck size={22} />}
-                title="תו נכה תקף"
+                title="נמצא תו נכה בתוקף"
                 plate={state.plate}
                 checkedAt={state.checkedAt}
+                description="הרכב מופיע במאגר תווי החניה של משרד התחבורה נכון לרגע הבדיקה."
+                moreLink={{ label: "איך לקרוא את התוצאה", href: "/articles/how-to-check-tav-nikkeh-online" }}
                 rows={[
                   state.badgeType && { label: "סוג תג", value: state.badgeType },
                   state.issueDate && {
@@ -234,6 +237,7 @@ export function BadgeCheckWidget({ embedded = false }: { embedded?: boolean }) {
                 plate={state.plate}
                 checkedAt={state.checkedAt}
                 description="לא מצאנו רשומה תקפה. ייתכן שהתו פג, שלא הוזן עדיין, או שמספר הרכב שגוי."
+                moreLink={{ label: "מה המשמעות של ״לא נמצא״?", href: "/faq#what-not-found-means" }}
                 onReset={reset}
               />
             )}
@@ -263,10 +267,12 @@ type ResultCardProps = {
   description?: string;
   checkedAt?: string;
   rows?: { label: string; value: string }[];
+  /** Optional "read more" link rendered under the details. */
+  moreLink?: { label: string; href: string };
   onReset: () => void;
 };
 
-function ResultCard({ tone, icon, title, plate, description, checkedAt, rows, onReset }: ResultCardProps) {
+function ResultCard({ tone, icon, title, plate, description, checkedAt, rows, moreLink, onReset }: ResultCardProps) {
   const toneCls =
     tone === "success"
       ? "border-brand/25 bg-brand-soft/60"
@@ -328,6 +334,16 @@ function ResultCard({ tone, icon, title, plate, description, checkedAt, rows, on
                 </div>
               ))}
             </dl>
+          )}
+
+          {moreLink && (
+            <Link
+              href={moreLink.href}
+              className="mt-4 inline-flex items-center gap-1 text-[13.5px] font-medium text-brand-strong hover:underline underline-offset-2"
+            >
+              {moreLink.label}
+              <span aria-hidden>‹</span>
+            </Link>
           )}
         </div>
 
