@@ -113,11 +113,13 @@ export default function HomePage() {
           />
           <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
             {[
-              { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב — מדריך קצר" },
-              { href: "/articles/check-tav-nikkeh-by-id-number", label: "בדיקת תו נכה לפי תעודת זהות — מה אפשרי ומה לא" },
-              { href: "/articles/ministry-personal-area-guide", label: "האזור האישי של משרד התחבורה — סטטוס, תוקף וחידוש" },
-              { href: "/articles/blue-square-rules-2026", label: "כללי הריבוע הכחול — איפה מותר לחנות עם תו" },
-              { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר — מעבר לחניה" },
+              { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב?" },
+              { href: "/articles/check-tav-nikkeh-by-id-number", label: "אפשר לבדוק תו נכה לפי תעודת זהות?" },
+              { href: "/articles/ministry-personal-area-guide", label: "איפה בודקים סטטוס, תוקף וחידוש מול משרד התחבורה?" },
+              { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה — ומתי הוא מתעדכן?" },
+              { href: "/articles/parking-permit-vs-tav-nikkeh", label: "מה ההבדל בין תו נכה, תג נכה ותו חניה עירוני?" },
+              { href: "/articles/blue-square-rules-2026", label: "איפה מותר לחנות עם תו? כללי הריבוע הכחול" },
+              { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר מעבר לחניה?" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
             ].map((l) => (
               <li key={l.href}>
