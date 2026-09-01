@@ -14,7 +14,7 @@ export function SiteFooter() {
             <p className="mt-4 text-muted-foreground text-[15px] leading-relaxed max-w-md">
               {site.description}
             </p>
-            <p className="mt-4 text-xs text-muted-foreground/80">
+            <p className="mt-4 text-xs text-muted-foreground">
               אתר עצמאי. אינו אתר רשמי של משרד התחבורה. הנתונים מבוססים על מאגר
               המידע הציבורי ב־
               <a

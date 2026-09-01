@@ -87,9 +87,9 @@ export default async function ArticlePage({
     description: article.dek,
     image: article.coverImage ? `${site.url}${article.coverImage}` : undefined,
     datePublished: article.publishedAt,
-    // No separate edit tracking — an unmodified article's dateModified
-    // legitimately equals its datePublished.
-    dateModified: article.publishedAt,
+    // `updatedAt` marks a substantive content revision; an unmodified
+    // article's dateModified legitimately equals its datePublished.
+    dateModified: article.updatedAt ?? article.publishedAt,
     inLanguage: "he",
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
     // Byline is the editorial board, so Organization (not Person).
@@ -108,6 +108,22 @@ export default async function ArticlePage({
     articleSection: category?.name,
   };
 
+  // HowTo structured data for step-by-step guides that declare explicit steps.
+  const howToJsonLd = article.howToSteps
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: article.title,
+        description: article.dek,
+        inLanguage: "he",
+        step: article.howToSteps.map((text, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          text,
+        })),
+      }
+    : null;
+
   return (
     <article>
       <ReadingProgress />
@@ -116,6 +132,12 @@ export default async function ArticlePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        />
+      )}
       <BreadcrumbJsonLd
         crumbs={[
           { name: "ראשי", path: "/" },
@@ -165,6 +187,7 @@ export default async function ArticlePage({
             <ArticleMeta
               author={article.author}
               publishedAt={article.publishedAt}
+              updatedAt={article.updatedAt}
               readMinutes={article.readMinutes}
             />
           </div>

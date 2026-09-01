@@ -115,8 +115,8 @@ export default function HomePage() {
             {[
               { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב — מדריך קצר" },
               { href: "/articles/check-tav-nikkeh-by-id-number", label: "בדיקת תו נכה לפי תעודת זהות — מה אפשרי ומה לא" },
-              { href: "/articles/ministry-personal-area-guide", label: "האזור האישי של משרד התחבורה למחזיקי תו" },
-              { href: "/articles/online-renewal-overview", label: "חידוש תו אונליין: מה לבדוק לפני שמתחילים" },
+              { href: "/articles/ministry-personal-area-guide", label: "האזור האישי של משרד התחבורה — סטטוס, תוקף וחידוש" },
+              { href: "/articles/blue-square-rules-2026", label: "כללי הריבוע הכחול — איפה מותר לחנות עם תו" },
               { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר — מעבר לחניה" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
             ].map((l) => (

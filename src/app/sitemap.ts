@@ -6,11 +6,16 @@ import { categories } from "@/content/categories";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
+  // An article's freshness stamp is its last substantive edit, falling back
+  // to the publish date — sitemap freshness should track content, not builds.
+  const stampOf = (a: { publishedAt: string; updatedAt?: string }) =>
+    a.updatedAt ?? a.publishedAt;
+
   // Pages whose content IS the article list (home, archive, category) should
   // report the newest relevant article's date as `lastModified` — a stable,
   // content-driven signal instead of the noisy build timestamp.
-  const newestDate = (list: { publishedAt: string }[]): Date =>
-    list.length ? new Date(list[0].publishedAt) : now;
+  const newestDate = (list: { publishedAt: string; updatedAt?: string }[]): Date =>
+    list.length ? new Date(list.map(stampOf).sort().at(-1)!) : now;
   const newestArticle = newestDate(listArticles());
 
   return [
@@ -27,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...articles.map((a) => ({
       url: `${site.url}/articles/${a.slug}`,
-      lastModified: new Date(a.publishedAt),
+      lastModified: new Date(stampOf(a)),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

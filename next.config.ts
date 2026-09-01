@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
   // sitemap whose URLs live on a different host.
   async redirects() {
     return [
+      // The online-renewal overview was merged into the personal-area guide —
+      // both covered the same flow, and the thin standalone page was stuck at
+      // "crawled – currently not indexed". Preserve inbound links.
+      // Absolute destination so a hit on the onrender host collapses to a
+      // single hop instead of chaining into the host redirect below.
+      {
+        source: "/articles/online-renewal-overview",
+        destination: "https://tavcheck.co.il/articles/ministry-personal-area-guide",
+        permanent: true,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "badgecheck.onrender.com" }],

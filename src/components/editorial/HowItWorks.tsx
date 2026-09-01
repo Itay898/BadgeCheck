@@ -38,7 +38,7 @@ export function HowItWorks() {
             </span>
             <span
               aria-hidden
-              className="text-2xl font-extrabold tabular-nums text-foreground/15 tracking-tight"
+              className="text-2xl font-extrabold tabular-nums text-foreground/50 tracking-tight"
             >
               {n}
             </span>
