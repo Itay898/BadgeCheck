@@ -8,6 +8,7 @@ import { BreadcrumbJsonLd } from "@/components/editorial/BreadcrumbJsonLd";
 import { categories, getCategory } from "@/content/categories";
 import { listArticles } from "@/content/articles";
 import { site } from "@/content/site";
+import { WEBSITE_ID } from "@/components/site/SiteJsonLd";
 
 type Params = { slug: string };
 
@@ -50,6 +51,7 @@ export default async function CategoryPage({
     description: cat.description,
     url: `${site.url}/category/${cat.slug}`,
     inLanguage: "he",
+    isPartOf: { "@id": WEBSITE_ID },
     mainEntity: {
       "@type": "ItemList",
       itemListElement: list.map((a, i) => ({

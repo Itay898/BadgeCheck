@@ -12,6 +12,10 @@ import type { Metadata } from "next";
  */
 export const metadata: Metadata = {
   title: "העוזר החכם",
+  // Without this the route inherits the root layout's description, which
+  // describes the plate checker — wrong copy for any link preview of /chat.
+  description:
+    "עוזר חכם שעונה בשפה חופשית על שאלות סביב תו נכה — זכאות, מסמכים ונהלים — ומפנה לכתבות ולכלי הבדיקה של תו צ׳ק.",
   alternates: { canonical: "/chat" },
   robots: { index: false, follow: true },
 };

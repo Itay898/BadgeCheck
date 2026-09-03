@@ -11,6 +11,8 @@ import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { ReadingProgress } from "@/components/editorial/ReadingProgress";
 import { SectionHeader } from "@/components/editorial/SectionHeader";
 import { BreadcrumbJsonLd } from "@/components/editorial/BreadcrumbJsonLd";
+import { ORGANIZATION_ID, WEBSITE_ID } from "@/components/site/SiteJsonLd";
+import { alt as SITE_OG_ALT, size as SITE_OG_SIZE } from "@/app/opengraph-image";
 import { articles, getArticle, listArticles } from "@/content/articles";
 import { getCategory } from "@/content/categories";
 import { site } from "@/content/site";
@@ -32,21 +34,39 @@ export async function generateMetadata({
   const path = `/articles/${article.slug}`;
   // Share the article's cover image in link previews (OpenGraph + Twitter).
   // Relative paths resolve against `metadataBase` set in the root layout.
+  //
+  // A route's `openGraph` object REPLACES the root layout's rather than merging
+  // into it, and the file-based `app/opengraph-image` does NOT cascade into a
+  // route that declares its own `openGraph` — verified against the build
+  // output. Cover-less articles were therefore shipping with no og:image at
+  // all, so they need the site-wide card named explicitly.
+  // Dimensions are declared only for the generated site card, whose size is
+  // exported alongside it; article covers vary, so we let the crawler measure.
   const ogImages = article.coverImage
     ? [{ url: article.coverImage, alt: article.title }]
-    : undefined;
+    : [{ url: "/opengraph-image", alt: SITE_OG_ALT, ...SITE_OG_SIZE }];
+
+  // `seoTitle` is written to be the finished SERP headline, so it opts out of
+  // the `%s · תו צ׳ק` template: at 55-65 characters the appended brand pushes
+  // the keyword-bearing tail past Google's truncation point.
+  const title = article.seoTitle ? { absolute: article.seoTitle } : article.title;
+
   return {
     // SERP snippet uses the SEO variants; OpenGraph/Twitter below keep the
     // editorial headline, which reads better in social link previews.
-    title: article.seoTitle ?? article.title,
+    title,
     description: article.seoDescription ?? article.dek,
     alternates: { canonical: path },
     openGraph: {
       type: "article",
+      // Re-declared because a child `openGraph` replaces the root layout's.
+      siteName: site.name,
+      locale: "he_IL",
       title: article.title,
       description: article.dek,
       url: path,
       publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt ?? article.publishedAt,
       authors: [article.author],
       images: ogImages,
     },
@@ -85,7 +105,11 @@ export default async function ArticlePage({
     "@type": articleType,
     headline: article.title,
     description: article.dek,
-    image: article.coverImage ? `${site.url}${article.coverImage}` : undefined,
+    // Google asks Article nodes for a representative image; cover-less
+    // articles reuse the generated site card, same as their og:image.
+    image: article.coverImage
+      ? `${site.url}${article.coverImage}`
+      : `${site.url}/opengraph-image`,
     datePublished: article.publishedAt,
     // `updatedAt` marks a substantive content revision; an unmodified
     // article's dateModified legitimately equals its datePublished.
@@ -94,17 +118,10 @@ export default async function ArticlePage({
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
     // Byline is the editorial board, so Organization (not Person).
     author: { "@type": "Organization", name: article.author, url: site.url },
-    publisher: {
-      "@type": "Organization",
-      name: site.name,
-      url: site.url,
-      logo: {
-        "@type": "ImageObject",
-        url: `${site.url}/logo.png`,
-        width: 512,
-        height: 512,
-      },
-    },
+    // Reference the site-level Organization node emitted by <SiteJsonLd />
+    // rather than restating it — one entity, described once.
+    publisher: { "@id": ORGANIZATION_ID },
+    isPartOf: { "@id": WEBSITE_ID },
     articleSection: category?.name,
   };
 
