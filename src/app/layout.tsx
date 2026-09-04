@@ -42,9 +42,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // Mirrors --paper in globals.css for each scheme. The previous pair was a
+  // warm cream left over from an earlier palette, so the mobile browser chrome
+  // rendered warm against a cool page.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAF7F2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0F1115" },
+    { media: "(prefers-color-scheme: light)", color: "#FAFCFE" },
+    { media: "(prefers-color-scheme: dark)", color: "#090D14" },
   ],
 };
 

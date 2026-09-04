@@ -9,6 +9,44 @@ import { WhoFor } from "@/components/editorial/WhoFor";
 import { listArticles, getFeatured } from "@/content/articles";
 import { categories } from "@/content/categories";
 import { site } from "@/content/site";
+import { ORGANIZATION_ID, WEBSITE_ID } from "@/components/site/SiteJsonLd";
+
+/**
+ * The four questions Google renders in the People-Also-Ask block for
+ * "בדיקת תו נכה לפי מספר רכב" — the query this page ranks for. Answers are
+ * condensed from the matching /faq entries so the two never diverge in
+ * substance, and each one hands off to the page that covers it in full.
+ */
+const HOME_QUESTIONS = [
+  {
+    question: "איך בודקים אם לרכב יש תו נכה?",
+    answer:
+      "מזינים את מספר הרכב בכלי שלמעלה. השאילתה רצה מול מאגר המידע הציבורי של משרד התחבורה ומחזירה תשובה אחת ברורה — יש רישום תקף או שאין. בלי הרשמה ובלי שמירת מספרי רכב.",
+    href: "/articles/how-to-check-tav-nikkeh-online",
+    label: "איך לקרוא נכון את התוצאה",
+  },
+  {
+    question: "אפשר לבדוק תו נכה לפי תעודת זהות?",
+    answer:
+      "לא במאגר הציבורי. הוא בנוי סביב מספר רכב בלבד, ובכוונה אינו כולל שמות או מספרי זהות. בדיקת סטטוס אישי נעשית מול משרד התחבורה, אחרי הזדהות.",
+    href: "/articles/check-tav-nikkeh-by-id-number",
+    label: "מה כן אפשר לבדוק אישית",
+  },
+  {
+    question: "החלפתי רכב — התו עובר אליו אוטומטית?",
+    answer:
+      "לא. התו מונפק לאדם, אבל במאגר הוא רשום מול מספר רכב. עד שהשיוך לרכב החדש לא מעודכן במשרד התחבורה, בדיקה לפי מספר רכב תחזיר ״לא נמצא״ גם כשהתו בתוקף.",
+    href: "/articles/tav-nikkeh-vehicle-change",
+    label: "מה צריך לעדכן ואיפה",
+  },
+  {
+    question: "איפה בודקים סטטוס בקשה ותוקף מול משרד התחבורה?",
+    answer:
+      "באזור האישי באתר משרד התחבורה, אחרי הזדהות. שם מופיעים סטטוס הבקשה, תוקף התו ופעולות חידוש — דברים שהמאגר הציבורי אינו חושף.",
+    href: "/articles/ministry-personal-area-guide",
+    label: "מדריך לאזור האישי",
+  },
+] as const;
 
 export default function HomePage() {
   const featured = getFeatured();
@@ -18,13 +56,20 @@ export default function HomePage() {
   const appJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
+    "@id": `${site.url}/#checker`,
     name: `${site.name} — בדיקת תו נכה`,
     url: site.url,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
+    browserRequirements: "לא נדרשת הרשמה או התקנה",
     inLanguage: "he",
+    isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "ILS" },
     description: site.description,
+    // Point at the site-level entities instead of describing a second,
+    // look-alike Organization on this page.
+    publisher: { "@id": ORGANIZATION_ID },
+    isPartOf: { "@id": WEBSITE_ID },
   };
 
   return (
@@ -118,6 +163,7 @@ export default function HomePage() {
               { href: "/articles/ministry-personal-area-guide", label: "איפה בודקים סטטוס, תוקף וחידוש מול משרד התחבורה?" },
               { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה — ומתי הוא מתעדכן?" },
               { href: "/articles/parking-permit-vs-tav-nikkeh", label: "מה ההבדל בין תו נכה, תג נכה ותו חניה עירוני?" },
+              { href: "/articles/tav-nikkeh-vehicle-change", label: "החלפתי רכב — למה הבדיקה מראה ״לא נמצא״?" },
               { href: "/articles/blue-square-rules-2026", label: "איפה מותר לחנות עם תו? כללי הריבוע הכחול" },
               { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר מעבר לחניה?" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
@@ -137,6 +183,39 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
+        </Container>
+      </section>
+
+      {/* COMMON QUESTIONS — the questions Google surfaces for the head
+          query, answered on the page that ranks for it. Condensed from
+          /faq; the full set lives there. */}
+      <section className="py-[var(--section-pad-y)] border-b border-border">
+        <Container>
+          <SectionHeader
+            eyebrow="בקצרה"
+            title="שאלות שחוזרות על עצמן"
+            description="התשובות הקצרות. הרחבה מלאה, כולל חידוש, זכויות וחניה — בעמוד השאלות הנפוצות."
+            link={{ href: "/faq", label: "לכל השאלות" }}
+          />
+          <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+            {HOME_QUESTIONS.map((q) => (
+              <div key={q.href}>
+                <h3 className="text-[17px] font-bold leading-snug tracking-tight">
+                  {q.question}
+                </h3>
+                <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">
+                  {q.answer}
+                </p>
+                <Link
+                  href={q.href}
+                  className="mt-2 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand hover:text-brand-strong transition-colors"
+                >
+                  {q.label}
+                  <ArrowLeft size={14} aria-hidden />
+                </Link>
+              </div>
+            ))}
+          </div>
         </Container>
       </section>
 

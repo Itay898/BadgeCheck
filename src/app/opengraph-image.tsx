@@ -1,10 +1,18 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/content/site";
+import { MARK_SVG } from "@/content/mark";
 
 export const runtime = "nodejs";
 export const alt = `${site.name} — בדיקת תו נכה לפי מספר רכב`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+/**
+ * Satori takes the logomark as an image rather than inline SVG, which it
+ * supports only partially. Base64 sidesteps URL-encoding pitfalls with the
+ * `#` in the fill colours.
+ */
+const MARK_DATA_URI = `data:image/svg+xml;base64,${Buffer.from(MARK_SVG).toString("base64")}`;
 
 /**
  * Editorial OG card — warm paper, deep ink, single teal accent.
@@ -75,23 +83,11 @@ export default async function Image() {
               gap: 14,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 56,
-                height: 56,
-                background: COLORS.paper2,
-                border: `1px solid ${COLORS.rule}`,
-                borderRadius: 12,
-                fontSize: 32,
-                fontWeight: 700,
-                color: COLORS.ink,
-              }}
-            >
-              ת
-            </div>
+            {/* Same artwork as the favicon and the header tile. */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- this
+                tree is rendered to a PNG by Satori, not by a browser;
+                next/image does not exist in that runtime. */}
+            <img src={MARK_DATA_URI} width={56} height={56} alt="" />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.1 }}>
                 {site.name}
