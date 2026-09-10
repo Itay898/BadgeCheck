@@ -73,7 +73,7 @@ export function BadgeCheckWidget({ embedded = false }: { embedded?: boolean }) {
     if (!PLATE_REGEX.test(cleaned) || digitsOnly.length < 5) {
       setState({
         status: "error",
-        plate: cleaned || "—",
+        plate: cleaned || "-",
         message: "מספר הרכב לא תקין. הזינו 5–8 ספרות, עם או בלי מקפים.",
       });
       return;

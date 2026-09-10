@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { site } from "@/content/site";
+import { SiteAnalytics } from "@/components/site/SiteAnalytics";
 import "./globals.css";
 
 const frankRuhl = Frank_Ruhl_Libre({
@@ -39,6 +40,8 @@ export const metadata: Metadata = {
     title: site.seo.title,
     description: site.seo.description,
   },
+  // AdSense site verification; only emitted once a publisher ID is configured.
+  other: site.ads.adsenseClient ? { "google-adsense-account": site.ads.adsenseClient } : undefined,
 };
 
 export const viewport: Viewport = {
@@ -66,6 +69,7 @@ export default function RootLayout({
           דלג לתוכן המרכזי
         </a>
         {children}
+        <SiteAnalytics />
       </body>
     </html>
   );

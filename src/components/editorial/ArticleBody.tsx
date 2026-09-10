@@ -52,7 +52,7 @@ function renderBlock(block: ArticleBlock, i: number): React.ReactNode {
           {block.text}
           {block.cite && (
             <footer className="mt-3 text-sm text-muted-foreground not-italic font-sans">
-              — {block.cite}
+              - {block.cite}
             </footer>
           )}
         </blockquote>

@@ -21,7 +21,7 @@ const HOME_QUESTIONS = [
   {
     question: "איך בודקים אם לרכב יש תו נכה?",
     answer:
-      "מזינים את מספר הרכב בכלי שלמעלה. השאילתה רצה מול מאגר המידע הציבורי של משרד התחבורה ומחזירה תשובה אחת ברורה — יש רישום תקף או שאין. בלי הרשמה ובלי שמירת מספרי רכב.",
+      "מזינים את מספר הרכב בכלי שלמעלה. השאילתה רצה מול מאגר המידע הציבורי של משרד התחבורה ומחזירה תשובה אחת ברורה - יש רישום תקף או שאין. בלי הרשמה ובלי שמירת מספרי רכב.",
     href: "/articles/how-to-check-tav-nikkeh-online",
     label: "איך לקרוא נכון את התוצאה",
   },
@@ -33,7 +33,7 @@ const HOME_QUESTIONS = [
     label: "מה כן אפשר לבדוק אישית",
   },
   {
-    question: "החלפתי רכב — התו עובר אליו אוטומטית?",
+    question: "החלפתי רכב - התו עובר אליו אוטומטית?",
     answer:
       "לא. התו מונפק לאדם, אבל במאגר הוא רשום מול מספר רכב. עד שהשיוך לרכב החדש לא מעודכן במשרד התחבורה, בדיקה לפי מספר רכב תחזיר ״לא נמצא״ גם כשהתו בתוקף.",
     href: "/articles/tav-nikkeh-vehicle-change",
@@ -42,7 +42,7 @@ const HOME_QUESTIONS = [
   {
     question: "איפה בודקים סטטוס בקשה ותוקף מול משרד התחבורה?",
     answer:
-      "באזור האישי באתר משרד התחבורה, אחרי הזדהות. שם מופיעים סטטוס הבקשה, תוקף התו ופעולות חידוש — דברים שהמאגר הציבורי אינו חושף.",
+      "באזור האישי באתר משרד התחבורה, אחרי הזדהות. שם מופיעים סטטוס הבקשה, תוקף התו ופעולות חידוש - דברים שהמאגר הציבורי אינו חושף.",
     href: "/articles/ministry-personal-area-guide",
     label: "מדריך לאזור האישי",
   },
@@ -57,7 +57,7 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "@id": `${site.url}/#checker`,
-    name: `${site.name} — בדיקת תו נכה`,
+    name: `${site.name} - בדיקת תו נכה`,
     url: site.url,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -83,18 +83,18 @@ export default function HomePage() {
       <section className="relative pt-8 sm:pt-14 pb-12 sm:pb-16 border-b border-border">
         <Container>
           <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start">
-            {/* Hero copy — visible second on mobile, first at lg+ */}
+            {/* Hero copy - visible second on mobile, first at lg+ */}
             <div className="order-2 lg:order-1 lg:col-span-7">
               <p className="inline-flex items-center gap-2 rounded-full bg-brand-soft text-brand-strong text-[12px] font-semibold py-1 px-2.5">
                 <Database size={12} aria-hidden />
                 מבוסס על data.gov.il
               </p>
               <h1 className="mt-5 text-[34px] sm:text-[46px] lg:text-[54px] leading-[1.08] font-bold tracking-tight">
-                בדיקת <span className="text-brand">תו נכה</span> לפי מספר רכב — חינם וללא הרשמה
+                בדיקת <span className="text-brand">תו נכה</span> לפי מספר רכב - חינם וללא הרשמה
               </h1>
               <p className="mt-5 text-[17px] sm:text-lg text-muted-foreground leading-relaxed max-w-[58ch]">
                 מזינים מספר רכב, ואנחנו בודקים בזמן אמת מול מאגר המידע הציבורי
-                של ממשלת ישראל. לצד הכלי — מבט מסודר על התהליך, הזכויות והכללים.
+                של ממשלת ישראל. לצד הכלי - מבט מסודר על התהליך, הזכויות והכללים.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
@@ -113,7 +113,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Checker — first on mobile so it's above the fold, right side at lg+ */}
+            {/* Checker - first on mobile so it's above the fold, right side at lg+ */}
             <div
               id="check"
               className="order-1 lg:order-2 lg:col-span-5 scroll-mt-24"
@@ -142,13 +142,13 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="למי ולמה"
             title="מתי כדאי לבדוק תו"
-            description="תוקף תו נכה הוא מידע ציבורי, אבל הוא יושב במאגר נתונים שלא נבנה לבדיקה מהירה. הכלי מצמצם את זה לתשובה אחת ברורה — בלי הרשמה, בלי התקנה, ובלי לשמור את מספר הרכב."
+            description="תוקף תו נכה הוא מידע ציבורי, אבל הוא יושב במאגר נתונים שלא נבנה לבדיקה מהירה. הכלי מצמצם את זה לתשובה אחת ברורה - בלי הרשמה, בלי התקנה, ובלי לשמור את מספר הרכב."
           />
           <WhoFor />
         </Container>
       </section>
 
-      {/* POPULAR ANSWERS — plain text links push authority to the key guides */}
+      {/* POPULAR ANSWERS - plain text links push authority to the key guides */}
       <section className="py-12 sm:py-16 border-b border-border bg-paper-2">
         <Container>
           <SectionHeader
@@ -161,9 +161,9 @@ export default function HomePage() {
               { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב?" },
               { href: "/articles/check-tav-nikkeh-by-id-number", label: "אפשר לבדוק תו נכה לפי תעודת זהות?" },
               { href: "/articles/ministry-personal-area-guide", label: "איפה בודקים סטטוס, תוקף וחידוש מול משרד התחבורה?" },
-              { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה — ומתי הוא מתעדכן?" },
+              { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה - ומתי הוא מתעדכן?" },
               { href: "/articles/parking-permit-vs-tav-nikkeh", label: "מה ההבדל בין תו נכה, תג נכה ותו חניה עירוני?" },
-              { href: "/articles/tav-nikkeh-vehicle-change", label: "החלפתי רכב — למה הבדיקה מראה ״לא נמצא״?" },
+              { href: "/articles/tav-nikkeh-vehicle-change", label: "החלפתי רכב - למה הבדיקה מראה ״לא נמצא״?" },
               { href: "/articles/blue-square-rules-2026", label: "איפה מותר לחנות עם תו? כללי הריבוע הכחול" },
               { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר מעבר לחניה?" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
@@ -186,7 +186,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* COMMON QUESTIONS — the questions Google surfaces for the head
+      {/* COMMON QUESTIONS - the questions Google surfaces for the head
           query, answered on the page that ranks for it. Condensed from
           /faq; the full set lives there. */}
       <section className="py-[var(--section-pad-y)] border-b border-border">
@@ -194,7 +194,7 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="בקצרה"
             title="שאלות שחוזרות על עצמן"
-            description="התשובות הקצרות. הרחבה מלאה, כולל חידוש, זכויות וחניה — בעמוד השאלות הנפוצות."
+            description="התשובות הקצרות. הרחבה מלאה, כולל חידוש, זכויות וחניה - בעמוד השאלות הנפוצות."
             link={{ href: "/faq", label: "לכל השאלות" }}
           />
           <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
@@ -239,7 +239,7 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="עדכונים אחרונים"
             title="פורסם לאחרונה"
-            description="מדריכים, חדשות וזכויות — מה שיצא לאחרונה במערכת."
+            description="מדריכים, חדשות וזכויות - מה שיצא לאחרונה במערכת."
             link={{ href: "/articles", label: "לכל הכתבות" }}
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -304,7 +304,7 @@ export default function HomePage() {
                   לא בטוחים מה לבדוק? יש לנו עוזר חכם
                 </h2>
                 <p className="mt-2 text-[15px] text-muted-foreground max-w-[55ch] leading-relaxed">
-                  שאלו אותו בשפה חופשית — על זכאות, על מסמכים או על נהלים — והוא
+                  שאלו אותו בשפה חופשית - על זכאות, על מסמכים או על נהלים - והוא
                   יחזיר תשובה ממוקדת עם הפניות לכתבות המתאימות.
                 </p>
               </div>

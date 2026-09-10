@@ -12,12 +12,63 @@ const siteUrl = (rawUrl && /^https?:\/\//.test(rawUrl) ? rawUrl : "http://localh
 const rawEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
 const contactEmail = rawEmail && /.+@.+\..+/.test(rawEmail) ? rawEmail : "hello@tavcheck.example";
 
+/**
+ * GA4 measurement ID. It is public by nature (it ships in every page's HTML),
+ * so the production value lives here rather than only in hosting env vars — a
+ * deploy that forgets NEXT_PUBLIC_GA_ID still reports. The env var lets a
+ * preview or staging build point at a different property without a code change.
+ *
+ * An override that is present but malformed disables analytics for that build
+ * (with a build-log warning) instead of quietly falling back to the production
+ * property — otherwise a typo on a staging host would merge its traffic into
+ * production data with no signal.
+ */
+const GA_ID_PATTERN = /^G-[A-Z0-9]{6,12}$/;
+const PRODUCTION_GA_ID = "G-YX84RQZ89Y";
+
+function resolveGaMeasurementId(): string | undefined {
+  const override = process.env.NEXT_PUBLIC_GA_ID?.trim();
+  if (!override) return PRODUCTION_GA_ID;
+  if (GA_ID_PATTERN.test(override)) return override;
+  console.warn(
+    `[site] NEXT_PUBLIC_GA_ID="${override}" is not a GA4 measurement ID (expected G-XXXXXXXXXX); analytics disabled for this build.`,
+  );
+  return undefined;
+}
+
+/**
+ * Google AdSense publisher ID (ca-pub-…). Unlike the GA ID there is no
+ * committed default: ads stay off until NEXT_PUBLIC_ADSENSE_CLIENT is set, and
+ * a malformed value is rejected with a build-log warning. The optional article
+ * slot enables one manual in-article unit; Auto ads need only the publisher ID.
+ */
+const ADSENSE_CLIENT_PATTERN = /^ca-pub-\d{10,20}$/;
+const ADSENSE_SLOT_PATTERN = /^\d{6,16}$/;
+
+function resolveAdsenseClient(): string | undefined {
+  const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim();
+  if (!raw) return undefined;
+  if (ADSENSE_CLIENT_PATTERN.test(raw)) return raw;
+  console.warn(
+    `[site] NEXT_PUBLIC_ADSENSE_CLIENT="${raw}" is not an AdSense publisher ID (expected ca-pub-XXXXXXXXXXXXXXXX); ads disabled for this build.`,
+  );
+  return undefined;
+}
+
+function resolveAdsenseSlot(name: string, raw: string | undefined): string | undefined {
+  const value = raw?.trim();
+  if (!value) return undefined;
+  if (ADSENSE_SLOT_PATTERN.test(value)) return value;
+  console.warn(`[site] ${name}="${value}" is not an AdSense ad-unit ID (digits only); that unit is disabled for this build.`);
+  return undefined;
+}
+
 export const site = {
   name: "תו צ׳ק",
   shortName: "TavCheck",
   tagline: "בדיקה פתוחה של תו נכה",
   description:
-    "בודקים תוקף תו נכה לפי מספר רכב מול מאגר המידע הציבורי של ממשלת ישראל. לצד הכלי — מבט מסודר על התהליך, הזכויות והכללים.",
+    "בודקים תוקף תו נכה לפי מספר רכב מול מאגר המידע הציבורי של ממשלת ישראל. לצד הכלי - מבט מסודר על התהליך, הזכויות והכללים.",
   /**
    * Search-result copy (meta title/description). Kept separate from
    * `description`, which doubles as on-site footer/JSON-LD copy — SERP
@@ -32,6 +83,15 @@ export const site = {
   contact: {
     email: contactEmail,
     mailto: `mailto:${contactEmail}`,
+  },
+  analytics: {
+    gaMeasurementId: resolveGaMeasurementId(),
+  },
+  ads: {
+    adsenseClient: resolveAdsenseClient(),
+    slots: {
+      article: resolveAdsenseSlot("NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE", process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE),
+    },
   },
   nav: [
     { href: "/articles", label: "כתבות" },

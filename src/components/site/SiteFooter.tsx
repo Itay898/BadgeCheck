@@ -91,7 +91,7 @@ export function SiteFooter() {
         <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row gap-3 sm:gap-6 sm:items-center justify-between text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} {site.name}. כל הזכויות שמורות.</p>
           <p>
-            המידע באתר אינו מהווה ייעוץ משפטי, רפואי או מקצועי. בכל ספק — פנו
+            המידע באתר אינו מהווה ייעוץ משפטי, רפואי או מקצועי. בכל ספק - פנו
             למקור רשמי.
           </p>
         </div>

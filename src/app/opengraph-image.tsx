@@ -3,7 +3,7 @@ import { site } from "@/content/site";
 import { MARK_SVG } from "@/content/mark";
 
 export const runtime = "nodejs";
-export const alt = `${site.name} — בדיקת תו נכה לפי מספר רכב`;
+export const alt = `${site.name} - בדיקת תו נכה לפי מספר רכב`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

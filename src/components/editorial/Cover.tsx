@@ -117,7 +117,7 @@ export function Cover({
           background: `radial-gradient(120% 80% at 100% 0%, ${v.mark}, transparent 55%)`,
         }}
       />
-      {/* Single hairline arc — calm, geometric, no pattern noise */}
+      {/* Single hairline arc - calm, geometric, no pattern noise */}
       <svg
         className="absolute inset-0 w-full h-full"
         aria-hidden
