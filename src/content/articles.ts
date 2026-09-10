@@ -785,6 +785,7 @@ export const articles: Article[] = [
     publishedAt: "2026-09-01",
     readMinutes: 6,
     cover: "dots",
+    coverImage: "/articles/tav-nikkeh-public-dataset.webp",
     body: [
       {
         type: "p",
@@ -856,6 +857,7 @@ export const articles: Article[] = [
     publishedAt: "2026-09-01",
     readMinutes: 5,
     cover: "halftone",
+    coverImage: "/articles/parking-permit-vs-tav-nikkeh.webp",
     body: [
       {
         type: "p",
