@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteMotionConfig } from "@/components/site/SiteMotionConfig";
 import { SiteJsonLd } from "@/components/site/SiteJsonLd";
+import { SiteAdsense } from "@/components/site/SiteAdsense";
 
 export default function SiteLayout({
   children,
@@ -16,6 +17,7 @@ export default function SiteLayout({
         {children}
       </main>
       <SiteFooter />
+      <SiteAdsense />
     </SiteMotionConfig>
   );
 }

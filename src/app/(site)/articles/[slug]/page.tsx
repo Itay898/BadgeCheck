@@ -7,6 +7,7 @@ import { Cover } from "@/components/editorial/Cover";
 import { CategoryChip } from "@/components/editorial/CategoryChip";
 import { ArticleMeta } from "@/components/editorial/ArticleMeta";
 import { ArticleBody } from "@/components/editorial/ArticleBody";
+import { AdSlot } from "@/components/site/AdSlot";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { ReadingProgress } from "@/components/editorial/ReadingProgress";
 import { SectionHeader } from "@/components/editorial/SectionHeader";
@@ -228,6 +229,7 @@ export default async function ArticlePage({
       <div className="py-10 sm:py-14">
         <Container size="narrow">
           <ArticleBody blocks={article.body} />
+          <AdSlot client={site.ads.adsenseClient} slot={site.ads.slots.article} className="mt-12" />
 
           <div className="mt-12 pt-8 border-t border-border flex flex-wrap items-center justify-between gap-4">
             <Link

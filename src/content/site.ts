@@ -36,6 +36,33 @@ function resolveGaMeasurementId(): string | undefined {
   return undefined;
 }
 
+/**
+ * Google AdSense publisher ID (ca-pub-…). Unlike the GA ID there is no
+ * committed default: ads stay off until NEXT_PUBLIC_ADSENSE_CLIENT is set, and
+ * a malformed value is rejected with a build-log warning. The optional article
+ * slot enables one manual in-article unit; Auto ads need only the publisher ID.
+ */
+const ADSENSE_CLIENT_PATTERN = /^ca-pub-\d{10,20}$/;
+const ADSENSE_SLOT_PATTERN = /^\d{6,16}$/;
+
+function resolveAdsenseClient(): string | undefined {
+  const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim();
+  if (!raw) return undefined;
+  if (ADSENSE_CLIENT_PATTERN.test(raw)) return raw;
+  console.warn(
+    `[site] NEXT_PUBLIC_ADSENSE_CLIENT="${raw}" is not an AdSense publisher ID (expected ca-pub-XXXXXXXXXXXXXXXX); ads disabled for this build.`,
+  );
+  return undefined;
+}
+
+function resolveAdsenseSlot(name: string, raw: string | undefined): string | undefined {
+  const value = raw?.trim();
+  if (!value) return undefined;
+  if (ADSENSE_SLOT_PATTERN.test(value)) return value;
+  console.warn(`[site] ${name}="${value}" is not an AdSense ad-unit ID (digits only); that unit is disabled for this build.`);
+  return undefined;
+}
+
 export const site = {
   name: "תו צ׳ק",
   shortName: "TavCheck",
@@ -59,6 +86,12 @@ export const site = {
   },
   analytics: {
     gaMeasurementId: resolveGaMeasurementId(),
+  },
+  ads: {
+    adsenseClient: resolveAdsenseClient(),
+    slots: {
+      article: resolveAdsenseSlot("NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE", process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE),
+    },
   },
   nav: [
     { href: "/articles", label: "כתבות" },

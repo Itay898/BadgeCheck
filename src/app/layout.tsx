@@ -40,6 +40,8 @@ export const metadata: Metadata = {
     title: site.seo.title,
     description: site.seo.description,
   },
+  // AdSense site verification; only emitted once a publisher ID is configured.
+  other: site.ads.adsenseClient ? { "google-adsense-account": site.ads.adsenseClient } : undefined,
 };
 
 export const viewport: Viewport = {
