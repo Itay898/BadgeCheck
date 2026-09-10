@@ -6,9 +6,9 @@ import { CategoryFilter } from "@/components/editorial/CategoryFilter";
 import { listArticles } from "@/content/articles";
 
 export const metadata: Metadata = {
-  title: "כל הכתבות על תו נכה — מדריכים, זכויות וחדשות",
+  title: "כל הכתבות על תו נכה - מדריכים, זכויות וחדשות",
   description:
-    "כל הכתבות, המדריכים, החדשות והזכויות סביב תו הנכה הישראלי — במקום אחד.",
+    "כל הכתבות, המדריכים, החדשות והזכויות סביב תו הנכה הישראלי - במקום אחד.",
   alternates: { canonical: "/articles" },
 };
 

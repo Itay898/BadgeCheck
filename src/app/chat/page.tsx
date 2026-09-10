@@ -23,7 +23,7 @@ export default function ChatPage() {
       userKey={userKey}
     >
       <div className="flex h-screen flex-col">
-        {/* Slim top bar — gives chat users a clear way back to the site */}
+        {/* Slim top bar - gives chat users a clear way back to the site */}
         <header className="shrink-0 border-b border-border bg-background">
           <div className="mx-auto flex h-14 max-w-2xl items-center justify-between gap-4 px-4">
             <Link

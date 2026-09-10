@@ -41,7 +41,7 @@ export const site = {
   shortName: "TavCheck",
   tagline: "בדיקה פתוחה של תו נכה",
   description:
-    "בודקים תוקף תו נכה לפי מספר רכב מול מאגר המידע הציבורי של ממשלת ישראל. לצד הכלי — מבט מסודר על התהליך, הזכויות והכללים.",
+    "בודקים תוקף תו נכה לפי מספר רכב מול מאגר המידע הציבורי של ממשלת ישראל. לצד הכלי - מבט מסודר על התהליך, הזכויות והכללים.",
   /**
    * Search-result copy (meta title/description). Kept separate from
    * `description`, which doubles as on-site footer/JSON-LD copy — SERP

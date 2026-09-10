@@ -56,7 +56,7 @@ export function BadgeCheckResult({
   checkedAt,
   errorMessage,
 }: BadgeCheckResultProps) {
-  const plate = plateNumber?.trim() || "—";
+  const plate = plateNumber?.trim() || "-";
   const tone: Tone = errorMessage ? "error" : isVerified ? "success" : "warning";
 
   const icon =
