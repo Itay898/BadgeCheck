@@ -12,6 +12,30 @@ const siteUrl = (rawUrl && /^https?:\/\//.test(rawUrl) ? rawUrl : "http://localh
 const rawEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
 const contactEmail = rawEmail && /.+@.+\..+/.test(rawEmail) ? rawEmail : "hello@tavcheck.example";
 
+/**
+ * GA4 measurement ID. It is public by nature (it ships in every page's HTML),
+ * so the production value lives here rather than only in hosting env vars — a
+ * deploy that forgets NEXT_PUBLIC_GA_ID still reports. The env var lets a
+ * preview or staging build point at a different property without a code change.
+ *
+ * An override that is present but malformed disables analytics for that build
+ * (with a build-log warning) instead of quietly falling back to the production
+ * property — otherwise a typo on a staging host would merge its traffic into
+ * production data with no signal.
+ */
+const GA_ID_PATTERN = /^G-[A-Z0-9]{6,12}$/;
+const PRODUCTION_GA_ID = "G-YX84RQZ89Y";
+
+function resolveGaMeasurementId(): string | undefined {
+  const override = process.env.NEXT_PUBLIC_GA_ID?.trim();
+  if (!override) return PRODUCTION_GA_ID;
+  if (GA_ID_PATTERN.test(override)) return override;
+  console.warn(
+    `[site] NEXT_PUBLIC_GA_ID="${override}" is not a GA4 measurement ID (expected G-XXXXXXXXXX); analytics disabled for this build.`,
+  );
+  return undefined;
+}
+
 export const site = {
   name: "תו צ׳ק",
   shortName: "TavCheck",
@@ -32,6 +56,9 @@ export const site = {
   contact: {
     email: contactEmail,
     mailto: `mailto:${contactEmail}`,
+  },
+  analytics: {
+    gaMeasurementId: resolveGaMeasurementId(),
   },
   nav: [
     { href: "/articles", label: "כתבות" },

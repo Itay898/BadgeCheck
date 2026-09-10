@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { site } from "@/content/site";
+import { SiteAnalytics } from "@/components/site/SiteAnalytics";
 import "./globals.css";
 
 const frankRuhl = Frank_Ruhl_Libre({
@@ -66,6 +67,7 @@ export default function RootLayout({
           דלג לתוכן המרכזי
         </a>
         {children}
+        <SiteAnalytics />
       </body>
     </html>
   );
