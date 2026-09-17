@@ -184,6 +184,7 @@ export default function HomePage() {
           />
           <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
             {[
+              { href: "/articles/who-is-eligible-for-tav-nikkeh", label: "מי זכאי לתו נכה? כמה אחוזי נכות צריך?" },
               { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב?" },
               { href: "/articles/check-tav-nikkeh-by-id-number", label: "אפשר לבדוק תו נכה לפי תעודת זהות?" },
               { href: "/articles/ministry-personal-area-guide", label: "איפה בודקים סטטוס, תוקף וחידוש מול משרד התחבורה?" },

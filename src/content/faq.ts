@@ -72,6 +72,25 @@ export const faqSections: FaqSection[] = [
         cta: { label: "למדריך המלא: בדיקה לפי תעודת זהות", href: "/articles/check-tav-nikkeh-by-id-number" },
       },
       {
+        id: "who-is-eligible",
+        question: "מי זכאי לתו נכה, וכמה אחוזי נכות צריך?",
+        answer: [
+          "הזכאות נגזרת ממוגבלות בניידות, לא מאחוז נכות כשלעצמו. התקנות מגדירות שלושה מצבים שמזכים, ודי בעמידה באחד מהם: נכות ברגליים שמחייבת רכב כאמצעי תנועה, דרגת נכות של 60% לפחות שתנועה בדרכים בלעדיה עלולה לערער את הבריאות, או הגבלה בהליכה שמחייבת כיסא גלגלים.",
+          "לכן 60% נכות אינם כרטיס כניסה אוטומטי - הם מופיעים בתוך תנאי אחד בלבד, ורק יחד עם החלק השני שלו. את דרגת הנכות קובע ביטוח לאומי, אבל את הזכאות לתג קובע משרד התחבורה.",
+        ],
+        source: "התנאים כלשונם - בעמוד ״תג חנייה לנכה״ של המוסד לביטוח לאומי.",
+        cta: { label: "למדריך המלא: מי זכאי לתו נכה", href: "/articles/who-is-eligible-for-tav-nikkeh" },
+      },
+      {
+        id: "btl-or-ministry",
+        question: "ביטוח לאומי או משרד התחבורה - מי מנפיק את התו?",
+        answer: [
+          "משרד התחבורה בלבד. ביטוח לאומי מצהיר על כך במפורש בעמוד שלו: הוא קובע דרגות נכות ומשלם קצבאות, אבל אינו מחלק תגי חניה.",
+          "המשמעות המעשית: הבקשה, הבדיקה, ההחלטה, החידוש והערר - כולם מול משרד התחבורה, גם אם דרגת הנכות שלכם נקבעה בביטוח לאומי.",
+        ],
+        cta: { label: "מי קובע מה - ההסבר המלא", href: "/articles/who-is-eligible-for-tav-nikkeh" },
+      },
+      {
         id: "is-it-free",
         question: "השימוש בכלי עולה כסף?",
         answer: [
@@ -247,7 +266,7 @@ export const faqSections: FaqSection[] = [
  * know how old the answers are. Bump it when an answer changes, not when the
  * file is merely touched.
  */
-export const FAQ_UPDATED_AT = "2026-09-01";
+export const FAQ_UPDATED_AT = "2026-09-18";
 
 /** All entries flattened, useful for JSON-LD and for a "search FAQ" feature. */
 export function listFaqEntries(): FaqEntry[] {

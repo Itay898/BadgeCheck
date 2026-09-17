@@ -108,6 +108,12 @@ export const sources = {
     "https://www.btl.gov.il/benefits/Disability/otherbenefits/Pages/%D7%AA%D7%92%20%D7%97%D7%A0%D7%99%D7%94%20%D7%9C%D7%A8%D7%9B%D7%91%20%D7%A0%D7%9B%D7%94.aspx",
   /** חוק חניה לנכים, התשנ״ד-1993, full text. */
   parkingLaw: "https://www.nevo.co.il/law_html/law01/310_113.htm",
+  /**
+   * אגף השיקום, משרד הביטחון — the separate badge track for IDF disabled
+   * veterans. Listed because it is a genuinely different route with a
+   * different authority, and sending someone down the wrong one wastes months.
+   */
+  defenceRehab: "https://shikum.mod.gov.il/transportation/parking-badge",
 } as const;
 
 export const site = {
