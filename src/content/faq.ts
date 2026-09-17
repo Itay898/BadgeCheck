@@ -236,6 +236,19 @@ export const faqSections: FaqSection[] = [
   },
 ];
 
+/**
+ * Last substantive revision of the answers above (ISO date), maintained by
+ * hand alongside the copy.
+ *
+ * Single source of truth: the page renders it as a visible "עודכן" line and
+ * the sitemap reads it for `lastmod`. Keeping the two in one place is the
+ * point — a freshness claim the page and the sitemap disagree about is worse
+ * than no claim, and reviewers of official-procedure content are entitled to
+ * know how old the answers are. Bump it when an answer changes, not when the
+ * file is merely touched.
+ */
+export const FAQ_UPDATED_AT = "2026-09-01";
+
 /** All entries flattened, useful for JSON-LD and for a "search FAQ" feature. */
 export function listFaqEntries(): FaqEntry[] {
   return faqSections.flatMap((s) => s.entries);

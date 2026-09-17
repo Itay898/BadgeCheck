@@ -1,4 +1,5 @@
 import { site } from "@/content/site";
+import { JsonLd } from "@/components/site/JsonLd";
 
 type Crumb = {
   /** Visible name in the breadcrumb */
@@ -23,9 +24,6 @@ export function BreadcrumbJsonLd({ crumbs }: { crumbs: Crumb[] }) {
     })),
   };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <JsonLd data={data} />
   );
 }

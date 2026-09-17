@@ -1,6 +1,15 @@
 import { categories } from "./categories";
+import { sources } from "./site";
 
-/** A substring of a paragraph to turn into an internal link. */
+/**
+ * A substring of a paragraph to turn into a link.
+ *
+ * `href` starting with "/" is an internal route rendered with next/link.
+ * An absolute URL is treated as a citation of an official source and rendered
+ * as a plain anchor that opens in a new tab — see `ArticleBody`. Citations
+ * should point at `sources` in `content/site.ts` rather than inline literals,
+ * so a moved government page is fixed in one place.
+ */
 export type InlineLink = { match: string; href: string };
 
 export type ArticleBlock =
@@ -32,6 +41,16 @@ export type Article = {
   body: ArticleBlock[];
   /** Explicit steps for HowTo structured data — only for true step-by-step guides. */
   howToSteps?: string[];
+  /**
+   * The official sources this article rests on, emitted as schema.org
+   * `citation` and rendered as a "מקורות" block at the foot of the article.
+   *
+   * This is the machine-readable half of the same promise /about makes in
+   * prose: every claim here is checkable against a named authority. Only list
+   * a source the article actually leans on — a citation list padded with
+   * loosely-related government pages is worth less than a short honest one.
+   */
+  citations?: { name: string; url: string }[];
   featured?: boolean;
 };
 
@@ -55,6 +74,9 @@ export const articles: Article[] = [
       "הכינו את רישיון הרכב החדש ואת פרטי הבעלות עליו.",
       "עדכנו את פרטי הרכב במערכות המקוונות של משרד התחבורה או באזור האישי.",
       "המתינו לקליטת העדכון, ואז בדקו את מספר הרכב החדש מול המאגר הציבורי.",
+    ],
+    citations: [
+      { name: "הגשת בקשה לקבלת תג חניה לנכה - משרד התחבורה", url: sources.ministryService },
     ],
     body: [
       {
@@ -125,6 +147,11 @@ export const articles: Article[] = [
     cover: "ribbon",
     coverImage: "/articles/how-to-apply-for-tav-nikkeh.webp",
     featured: true,
+    citations: [
+      { name: "הגשת בקשה לקבלת תג חניה לנכה - משרד התחבורה", url: sources.ministryService },
+      { name: "תג חנייה לנכה - המוסד לביטוח לאומי", url: sources.nationalInsurance },
+      { name: "חוק חניה לנכים, התשנ״ד-1993", url: sources.parkingLaw },
+    ],
     body: [
       {
         type: "p",
@@ -139,6 +166,10 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "התקנות מגדירות מצבים רפואיים ותפקודיים שעשויים לזכות בתו, למשל מוגבלות תנועה משמעותית או פגיעה ראייתית קשה. המאפיינים והאחוזים המדויקים שמזכים מופיעים בחוק ובתקנות, ויש להתעדכן בהם ישירות מהמקור.",
+        links: [
+          { match: "מופיעים בחוק ובתקנות", href: sources.parkingLaw },
+          { match: "ישירות מהמקור", href: sources.nationalInsurance },
+        ],
       },
       { type: "h3", text: "אסמכתאות נפוצות שנדרשות בהגשה" },
       {
@@ -158,6 +189,10 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "התיק עובר לבחינה מקצועית מטעם משרד התחבורה. בחלק מהמקרים תידרש בחינה נוספת. ההחלטה נמסרת בכתב, ובמערכות הדיגיטליות של המשרד ניתן לעיתים לעקוב אחר סטטוס הבקשה. משכי הטיפול משתנים - ההערכה העדכנית מופיעה באתר המשרד.",
+        links: [
+          { match: "לעקוב אחר סטטוס הבקשה", href: "/articles/ministry-personal-area-guide" },
+          { match: "ההערכה העדכנית מופיעה באתר המשרד", href: sources.ministryService },
+        ],
       },
       { type: "h3", text: "אם הבקשה נדחתה" },
       {
@@ -180,6 +215,10 @@ export const articles: Article[] = [
     readMinutes: 6,
     cover: "wave",
     coverImage: "/articles/what-tav-nikkeh-actually-gives-you.webp",
+    citations: [
+      { name: "תג חנייה לנכה - המוסד לביטוח לאומי", url: sources.nationalInsurance },
+      { name: "חוק חניה לנכים, התשנ״ד-1993", url: sources.parkingLaw },
+    ],
     body: [
       {
         type: "p",
@@ -236,6 +275,9 @@ export const articles: Article[] = [
     readMinutes: 5,
     cover: "grid",
     coverImage: "/articles/blue-square-rules-2026.webp",
+    citations: [
+      { name: "חוק חניה לנכים, התשנ״ד-1993", url: sources.parkingLaw },
+    ],
     body: [
       {
         type: "p",
@@ -490,6 +532,10 @@ export const articles: Article[] = [
       "לוחצים על ׳בדיקה׳ - השאילתה רצה בזמן אמת מול המאגר הציבורי של ממשלת ישראל.",
       "קוראים את התוצאה: נמצא תו תקף, לא נמצאה רשומה תקפה, או שגיאה זמנית שמזמינה ניסיון חוזר.",
     ],
+    citations: [
+      { name: "מאגר ״כלי רכב עם תג חניה לנכה״ - data.gov.il", url: sources.datasetResource },
+      { name: "כלי רכב המשוייכים לתג נכה - משרד התחבורה", url: sources.ministryLookup },
+    ],
     body: [
       {
         type: "p",
@@ -499,7 +545,10 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "הכלי שולח שאילתה למאגר המידע הציבורי של ממשלת ישראל (data.gov.il) ומחפש רשומת תו תקפה התואמת למספר הרכב. הוא אינו ניגש למערכות הפנימיות של משרד התחבורה - אלא רק למידע שכבר פורסם לציבור.",
-        links: [{ match: "מאגר המידע הציבורי", href: "/articles/tav-nikkeh-public-dataset" }],
+        links: [
+          { match: "מאגר המידע הציבורי", href: "/articles/tav-nikkeh-public-dataset" },
+          { match: "data.gov.il", href: sources.datasetResource },
+        ],
       },
       { type: "h2", text: "איך בודקים - שלב אחר שלב" },
       {
@@ -540,6 +589,7 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "לעיתים השרת של המאגר הציבורי עמוס או בתחזוקה, והבדיקה מחזירה הודעת שגיאה במקום תשובה. זו אינה אמירה על התו - פשוט נסו שוב בעוד כמה דקות. אם התקלה נמשכת, אפשר לפנות ישירות למאגר ב־data.gov.il.",
+        links: [{ match: "ישירות למאגר ב־data.gov.il", href: sources.datasetResource }],
       },
       { type: "h2", text: "מתי הבדיקה שימושית במיוחד" },
       {
@@ -570,6 +620,7 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "את מאגר תווי החניה מפרסם משרד התחבורה באתר המידע הממשלתי הפתוח data.gov.il, והוא מתעדכן בקצב שהמשרד מגדיר. המשמעות המעשית: בין שינוי בסטטוס התו (הנפקה, חידוש, ביטול) לבין הופעתו במאגר עשוי לחלוף פרק זמן קצר. תוצאה שלילית מיד אחרי חידוש היא לרוב עניין של סבלנות - לא של בעיה בתו.",
+        links: [{ match: "data.gov.il", href: sources.datasetResource }],
       },
       { type: "h2", text: "מה הבדיקה לא עושה" },
       {
@@ -596,6 +647,10 @@ export const articles: Article[] = [
     updatedAt: "2026-09-01",
     readMinutes: 7,
     cover: "grid",
+    citations: [
+      { name: "מאגר ״כלי רכב עם תג חניה לנכה״ - data.gov.il", url: sources.datasetResource },
+      { name: "הגשת בקשה לקבלת תג חניה לנכה - משרד התחבורה", url: sources.ministryService },
+    ],
     body: [
       {
         type: "p",
@@ -606,6 +661,7 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "מאגר תווי החניה שמפרסמת ממשלת ישראל ב־data.gov.il הוא מאגר פתוח לציבור, ולכן הוא בנוי כך שלא ניתן לזהות דרכו אדם: הרשומות בו מקושרות למספרי רכב, ללא שם, ללא תעודת זהות וללא פרטים אישיים. זו החלטה מכוונת שמאזנת בין שקיפות (לכל אחד מותר לדעת אם רכב שחונה בחניית נכים נושא תו תקף) לבין פרטיות (אי אפשר ״לחפש אדם״ ולגלות שהוא נכה).",
+        links: [{ match: "data.gov.il", href: sources.datasetResource }],
       },
       {
         type: "p",
@@ -633,6 +689,7 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "מי שמתקשה עם ההזדהות הדיגיטלית יכול לפנות למוקד הארצי של משרד התחבורה בטלפון ‎*5678 (או 1-222-56-78), שבו פועל מענה קולי אוטומטי מסביב לשעון ומענה אנושי בעברית, בערבית וברוסית. פניות בכתב ליחידה לטיפול במוגבלי ניידות נשלחות לפי הכתובת שמפורסמת באתר gov.il. גם בפנייה אישית כזו תידרש הזדהות - בדיוק מהסיבה שבגללה אין בדיקה ציבורית לפי תעודת זהות.",
+        links: [{ match: "הכתובת שמפורסמת באתר gov.il", href: sources.ministryService }],
       },
       { type: "h2", text: "תרחישים נפוצים - ומה עושים בכל אחד" },
       {
@@ -685,10 +742,14 @@ export const articles: Article[] = [
       "שולחים את הבקשה ושומרים את מספר הפנייה או אישור ההגשה.",
       "עוקבים אחרי הסטטוס באזור האישי עד ההחלטה.",
     ],
+    citations: [
+      { name: "הגשת בקשה לקבלת תג חניה לנכה - משרד התחבורה", url: sources.ministryService },
+    ],
     body: [
       {
         type: "p",
         text: "רוב הפעולות סביב תו נכה - מהגשת בקשה ועד מעקב וחידוש - עברו בשנים האחרונות לערוץ דיגיטלי אחד: האזור האישי של משרד התחבורה באתר gov.il. מי שמכיר את האזור האישי חוסך טלפונים, תורים והמתנות. הנה מה שכדאי לדעת לפני הכניסה הראשונה.",
+        links: [{ match: "האזור האישי של משרד התחבורה באתר gov.il", href: sources.ministryService }],
       },
       { type: "h2", text: "איך נכנסים" },
       {
@@ -744,6 +805,7 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "לא כל בירור מחייב אזור אישי: המוקד הארצי של משרד התחבורה זמין בטלפון ‎*5678 (או 1-222-56-78), עם מענה קולי אוטומטי מסביב לשעון ומענה אנושי בעברית, בערבית וברוסית. לבירור סטטוס אישי תידרש הזדהות מול הנציג. את שעות המענה המעודכנות מפרסם המשרד באתר gov.il.",
+        links: [{ match: "שעות המענה המעודכנות מפרסם המשרד באתר gov.il", href: sources.ministryService }],
       },
       { type: "h2", text: "בעיות נפוצות - ומה בודקים" },
       { type: "h3", text: "ההזדהות לא עוברת" },
@@ -786,11 +848,18 @@ export const articles: Article[] = [
     readMinutes: 6,
     cover: "dots",
     coverImage: "/articles/tav-nikkeh-public-dataset.webp",
+    citations: [
+      { name: "מאגר ״כלי רכב עם תג חניה לנכה״ - data.gov.il", url: sources.datasetResource },
+      { name: "כלי רכב המשוייכים לתג נכה - משרד התחבורה", url: sources.ministryLookup },
+    ],
     body: [
       {
         type: "p",
         text: "כשמזינים מספר רכב בכלי הבדיקה שלנו, השאילתה לא רצה מול מערכת סודית - אלא מול מאגר נתונים פתוח שמפרסם משרד התחבורה באתר המידע הממשלתי data.gov.il, תחת השם ״כלי רכב עם תג חניה לנכה״. כל מי שרוצה יכול לעיין בו. הכרת המבנה שלו עוזרת להבין מה בדיקה ציבורית יכולה להגיד - ומה היא לא יכולה.",
-        links: [{ match: "בכלי הבדיקה שלנו", href: "/#check" }],
+        links: [
+          { match: "בכלי הבדיקה שלנו", href: "/#check" },
+          { match: "״כלי רכב עם תג חניה לנכה״", href: sources.datasetResource },
+        ],
       },
       { type: "h2", text: "מה יש במאגר - שלושה שדות בלבד" },
       {
@@ -819,11 +888,13 @@ export const articles: Article[] = [
       {
         type: "p",
         text: "את קצב העדכון קובע משרד התחבורה, ותאריך העדכון האחרון של המאגר מוצג בעמוד המאגר ב־data.gov.il. המשמעות המעשית: בין שינוי בסטטוס התג (הנפקה, חידוש, ביטול) לבין הופעתו במאגר עשוי לחלוף פרק זמן קצר. מי שחידש תו ולא מוצא את הרכב במאגר - ברוב המקרים פשוט צריך להמתין לפרסום הבא.",
+        links: [{ match: "בעמוד המאגר ב־data.gov.il", href: sources.datasetResource }],
       },
       { type: "h2", text: "״רשימת רכבים עם תו נכה״ - אפשר להוריד אותה?" },
       {
         type: "p",
         text: "כן. כמו כל מאגר פתוח ב־data.gov.il, אפשר לעיין בו ולהוריד אותו מעמוד המאגר הרשמי, וגם לגשת אליו בממשק API. הכלי שלנו עושה בדיוק את זה - שאילתה ממוקדת לפי מספר רכב, בזמן אמת, בלי לשמור את המספרים שנבדקו.",
+        links: [{ match: "מעמוד המאגר הרשמי", href: sources.datasetResource }],
       },
       { type: "h2", text: "מה זה אומר על תוצאות הבדיקה" },
       {
@@ -858,6 +929,10 @@ export const articles: Article[] = [
     readMinutes: 5,
     cover: "halftone",
     coverImage: "/articles/parking-permit-vs-tav-nikkeh.webp",
+    citations: [
+      { name: "מאגר ״כלי רכב עם תג חניה לנכה״ - data.gov.il", url: sources.datasetResource },
+      { name: "כלי רכב המשוייכים לתג נכה - משרד התחבורה", url: sources.ministryLookup },
+    ],
     body: [
       {
         type: "p",

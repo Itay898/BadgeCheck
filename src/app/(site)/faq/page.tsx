@@ -3,7 +3,14 @@ import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/site/Container";
 import { BreadcrumbJsonLd } from "@/components/editorial/BreadcrumbJsonLd";
-import { faqSections, listFaqEntries } from "@/content/faq";
+import { FAQ_UPDATED_AT, faqSections, listFaqEntries } from "@/content/faq";
+import { JsonLd } from "@/components/site/JsonLd";
+
+const dateFormatter = new Intl.DateTimeFormat("he-IL", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
 export const metadata: Metadata = {
   title: "שאלות נפוצות על תו נכה",
@@ -20,6 +27,11 @@ export default function FaqPage() {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     inLanguage: "he",
+    // Matches the visible "עודכן" line below. FAQ rich results were retired in
+    // May 2026, so nothing here earns a SERP feature — the markup stays
+    // because assistants still lift Q&A pairs, and a dated answer about
+    // official procedure is worth more than an undated one.
+    dateModified: FAQ_UPDATED_AT,
     mainEntity: allEntries.map((e) => ({
       "@type": "Question",
       name: e.question,
@@ -32,10 +44,7 @@ export default function FaqPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <JsonLd data={faqJsonLd} />
       <BreadcrumbJsonLd
         crumbs={[
           { name: "ראשי", path: "/" },
@@ -55,6 +64,22 @@ export default function FaqPage() {
           <p className="mt-3 text-[16px] text-muted-foreground leading-relaxed max-w-[55ch]">
             תשובות קצרות, מנוסחות בזהירות. כשהתשובה תלויה במדיניות רשמית - אנחנו
             מפנים למקור הרשמי המתאים, ולא ממציאים מספרים או תאריכים.
+          </p>
+          <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-muted-foreground">
+            <span className="text-foreground/90 font-medium">מערכת תו צ׳ק</span>
+            <span aria-hidden className="opacity-40">
+              ·
+            </span>
+            <span>
+              עודכן ב־
+              <time dateTime={FAQ_UPDATED_AT}>
+                {dateFormatter.format(new Date(FAQ_UPDATED_AT))}
+              </time>
+            </span>
+            <span aria-hidden className="opacity-40">
+              ·
+            </span>
+            <span>{allEntries.length} שאלות</span>
           </p>
         </Container>
       </header>

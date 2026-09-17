@@ -2,15 +2,20 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { articles, listArticles } from "@/content/articles";
 import { categories } from "@/content/categories";
+import { FAQ_UPDATED_AT } from "@/content/faq";
 
 /**
  * Last substantive content revision for the hand-written static pages, as
  * ISO dates. Google ignores a `lastmod` it decides is unreliable, and using
  * the build timestamp made every deploy claim that /about and /accessibility
  * had changed — so these are maintained by hand alongside their copy.
+ *
+ * /faq reads its date from the FAQ content module, which is also what the page
+ * renders as its visible "עודכן" line: the sitemap and the page should never
+ * be able to disagree about how fresh those answers are.
  */
 const STATIC_PAGE_UPDATED: Record<string, string> = {
-  "/faq": "2026-09-01",
+  "/faq": FAQ_UPDATED_AT,
   "/about": "2026-05-22",
   "/accessibility": "2026-05-22",
 };

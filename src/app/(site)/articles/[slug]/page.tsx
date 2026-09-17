@@ -7,18 +7,31 @@ import { Cover } from "@/components/editorial/Cover";
 import { CategoryChip } from "@/components/editorial/CategoryChip";
 import { ArticleMeta } from "@/components/editorial/ArticleMeta";
 import { ArticleBody } from "@/components/editorial/ArticleBody";
+import { ArticleSources } from "@/components/editorial/ArticleSources";
 import { AdSlot } from "@/components/site/AdSlot";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { ReadingProgress } from "@/components/editorial/ReadingProgress";
 import { SectionHeader } from "@/components/editorial/SectionHeader";
 import { BreadcrumbJsonLd } from "@/components/editorial/BreadcrumbJsonLd";
-import { ORGANIZATION_ID, WEBSITE_ID } from "@/components/site/SiteJsonLd";
+import { JsonLd } from "@/components/site/JsonLd";
+import {
+  DATASET_ID,
+  DatasetJsonLd,
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+} from "@/components/site/SiteJsonLd";
 import { alt as SITE_OG_ALT, size as SITE_OG_SIZE } from "@/app/opengraph-image";
 import { articles, getArticle, listArticles } from "@/content/articles";
 import { getCategory } from "@/content/categories";
 import { site } from "@/content/site";
 
 type Params = { slug: string };
+
+/**
+ * The one article whose subject *is* the public dataset. Its JSON-LD points at
+ * the shared Dataset node instead of describing a second copy of it.
+ */
+const DATASET_ARTICLE_SLUG = "tav-nikkeh-public-dataset";
 
 export function generateStaticParams(): Params[] {
   return articles.map((a) => ({ slug: a.slug }));
@@ -100,6 +113,7 @@ export default async function ArticlePage({
   // Using NewsArticle for guides/rights is misleading per Google's schema guide.
   const articleType = article.category === "news" ? "NewsArticle" : "Article";
   const articleUrl = `${site.url}/articles/${article.slug}`;
+  const isDatasetArticle = article.slug === DATASET_ARTICLE_SLUG;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -124,6 +138,23 @@ export default async function ArticlePage({
     publisher: { "@id": ORGANIZATION_ID },
     isPartOf: { "@id": WEBSITE_ID },
     articleSection: category?.name,
+    // The official pages this article rests on. Emitted only when the article
+    // declares them, so an article without sources says nothing rather than
+    // claiming a generic one.
+    ...(article.citations?.length
+      ? {
+          citation: article.citations.map((c) => ({
+            "@type": "CreativeWork",
+            name: c.name,
+            url: c.url,
+          })),
+        }
+      : {}),
+    // The dataset explainer is *about* the dataset entity the home page also
+    // describes — same node, not a second look-alike.
+    ...(isDatasetArticle
+      ? { about: { "@id": DATASET_ID }, isBasedOn: { "@id": DATASET_ID } }
+      : {}),
   };
 
   // HowTo structured data for step-by-step guides that declare explicit steps.
@@ -146,16 +177,14 @@ export default async function ArticlePage({
     <article>
       <ReadingProgress />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
       {howToJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-        />
+        <JsonLd data={howToJsonLd} />
       )}
+      {/* The dataset explainer references the Dataset node, so it has to carry
+          it — an `@id` that resolves to nothing on the page is worse than no
+          reference at all. */}
+      {isDatasetArticle && <DatasetJsonLd />}
       <BreadcrumbJsonLd
         crumbs={[
           { name: "ראשי", path: "/" },
@@ -229,6 +258,7 @@ export default async function ArticlePage({
       <div className="py-10 sm:py-14">
         <Container size="narrow">
           <ArticleBody blocks={article.body} />
+          <ArticleSources citations={article.citations} />
           <AdSlot client={site.ads.adsenseClient} slot={site.ads.slots.article} className="mt-12" />
 
           <div className="mt-12 pt-8 border-t border-border flex flex-wrap items-center justify-between gap-4">

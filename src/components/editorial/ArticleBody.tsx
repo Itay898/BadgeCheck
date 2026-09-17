@@ -3,7 +3,14 @@ import type { Article, ArticleBlock, InlineLink } from "@/content/articles";
 import { InlineCheckCallout } from "./InlineCheckCallout";
 
 /**
- * Render paragraph text, turning any declared substrings into internal links.
+ * Render paragraph text, turning any declared substrings into links.
+ *
+ * Internal routes go through next/link so they prefetch. An absolute URL is a
+ * citation of an official source: it renders as a plain anchor that opens in a
+ * new tab, with `rel="noopener"` for the usual reason and *without* `nofollow`
+ * — these are deliberate, editorial references to gov.il, btl.gov.il and the
+ * dataset, and the endorsement is the point.
+ *
  * Inline links inherit the `.prose-he a` styling from globals.css.
  */
 function renderInline(text: string, links?: InlineLink[]): React.ReactNode {
@@ -14,14 +21,25 @@ function renderInline(text: string, links?: InlineLink[]): React.ReactNode {
   const parts = text.split(new RegExp(`(${pattern})`, "g"));
   return parts.map((part, i) => {
     const link = links.find((l) => l.match === part);
-    return link ? (
+    if (!link) return part;
+    if (isExternal(link.href)) {
+      return (
+        <a key={i} href={link.href} target="_blank" rel="noopener noreferrer">
+          {part}
+        </a>
+      );
+    }
+    return (
       <Link key={i} href={link.href}>
         {part}
       </Link>
-    ) : (
-      part
     );
   });
+}
+
+/** Absolute URLs are citations; everything else is an in-site route. */
+function isExternal(href: string): boolean {
+  return /^https?:\/\//.test(href);
 }
 
 /** Insert the inline check CTA after roughly half of the body. Skip very short articles. */
