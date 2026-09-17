@@ -35,9 +35,12 @@ function buildLlmsTxt(): string {
   );
   lines.push("");
 
-  lines.push("## הכלי");
+  lines.push("## הכלי והנתונים");
   lines.push("");
   lines.push(`- [בדיקת תו נכה לרכב לפי מספר רכב](${site.url}/): הכלי עצמו. חינם, בלי הרשמה ובלי התקנה.`);
+  lines.push(
+    `- [מאגר תווי הנכה במספרים](${site.url}/dataset): כמה רכבים רשומים היום עם תג, חלוקה לפי סוג תג וטווח תאריכי ההפקה. נקרא ישירות מהמאגר ומתעדכן יומית.`,
+  );
   lines.push("");
 
   for (const category of categories) {

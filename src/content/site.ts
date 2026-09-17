@@ -114,6 +114,12 @@ export const sources = {
    * different authority, and sending someone down the wrong one wastes months.
    */
   defenceRehab: "https://shikum.mod.gov.il/transportation/parking-badge",
+  /**
+   * Israel Police announcement, 9 Dec 2024 — the יאח״ה / להב 433 investigation
+   * into serial issuing of forged badges. The primary source for the forgery
+   * story, which otherwise circulates only as secondary reporting.
+   */
+  policeForgeryCase: "https://www.gov.il/he/pages/police_09-12-24_tag",
 } as const;
 
 export const site = {
@@ -161,6 +167,7 @@ export const site = {
     },
   },
   nav: [
+    { href: "/dataset", label: "המאגר במספרים" },
     { href: "/articles", label: "כתבות" },
     { href: "/category/guides", label: "מדריכים" },
     { href: "/category/rights", label: "זכויות" },

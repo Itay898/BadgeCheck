@@ -41,6 +41,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site.url}/`, lastModified: newestArticle, changeFrequency: "weekly", priority: 1 },
     { url: `${site.url}/articles`, lastModified: newestArticle, changeFrequency: "daily", priority: 0.9 },
     { url: `${site.url}/faq`, lastModified: stampFor("/faq"), changeFrequency: "monthly", priority: 0.7 },
+    // The figures on /dataset are re-read daily, so its content genuinely does
+    // change that often — unlike the hand-written pages above.
+    { url: `${site.url}/dataset`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${site.url}/about`, lastModified: stampFor("/about"), changeFrequency: "yearly", priority: 0.4 },
     { url: `${site.url}/accessibility`, lastModified: stampFor("/accessibility"), changeFrequency: "yearly", priority: 0.4 },
     ...categories.map((c) => ({
