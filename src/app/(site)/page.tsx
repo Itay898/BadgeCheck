@@ -191,8 +191,12 @@ export default function HomePage() {
               { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה - ומתי הוא מתעדכן?" },
               { href: "/articles/parking-permit-vs-tav-nikkeh", label: "מה ההבדל בין תו נכה, תג נכה ותו חניה עירוני?" },
               { href: "/articles/tav-nikkeh-vehicle-change", label: "החלפתי רכב - למה הבדיקה מראה ״לא נמצא״?" },
+              { href: "/articles/renew-tav-nikkeh", label: "איך מחדשים תו נכה, ומה אם התוקף פג?" },
+              { href: "/articles/tav-nikkeh-appeal-after-rejection", label: "הבקשה נדחתה - ערר או בקשה חוזרת?" },
+              { href: "/articles/tav-nikkeh-badge-types", label: "מה ההבדל בין תג ירוק לתג כחול?" },
               { href: "/articles/blue-square-rules-2026", label: "איפה מותר לחנות עם תו? כללי הריבוע הכחול" },
               { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר מעבר לחניה?" },
+              { href: "/dataset", label: "כמה תגים יש בישראל? המאגר במספרים" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
             ].map((l) => (
               <li key={l.href}>
