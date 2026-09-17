@@ -9,6 +9,7 @@ import { categories, getCategory } from "@/content/categories";
 import { listArticles } from "@/content/articles";
 import { site } from "@/content/site";
 import { WEBSITE_ID } from "@/components/site/SiteJsonLd";
+import { JsonLd } from "@/components/site/JsonLd";
 
 type Params = { slug: string };
 
@@ -71,10 +72,7 @@ export default async function CategoryPage({
           { name: cat.name, path: `/category/${cat.slug}` },
         ]}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
-      />
+      <JsonLd data={collectionJsonLd} />
       <header className="pt-10 sm:pt-14 pb-8 border-b border-border">
         <Container>
           <p className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft text-brand-strong text-[12px] font-semibold py-1 px-2.5">

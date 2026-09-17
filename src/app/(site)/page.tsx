@@ -9,7 +9,13 @@ import { WhoFor } from "@/components/editorial/WhoFor";
 import { listArticles, getFeatured } from "@/content/articles";
 import { categories } from "@/content/categories";
 import { site } from "@/content/site";
-import { ORGANIZATION_ID, WEBSITE_ID } from "@/components/site/SiteJsonLd";
+import { JsonLd } from "@/components/site/JsonLd";
+import {
+  DATASET_ID,
+  DatasetJsonLd,
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+} from "@/components/site/SiteJsonLd";
 
 /**
  * The four questions Google renders in the People-Also-Ask block for
@@ -70,14 +76,34 @@ export default function HomePage() {
     // look-alike Organization on this page.
     publisher: { "@id": ORGANIZATION_ID },
     isPartOf: { "@id": WEBSITE_ID },
+    // The checker reads one public dataset and nothing else. Saying so in the
+    // graph is the machine-readable version of the "מבוסס על data.gov.il"
+    // badge in the hero.
+    isBasedOn: { "@id": DATASET_ID },
+  };
+
+  // The four questions Google surfaces for the head query, marked up so the
+  // answers are extractable on their own. FAQ rich results were retired in
+  // May 2026, so this earns no SERP feature — it is here because assistants
+  // still lift Q&A pairs, and the markup makes each answer self-contained.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${site.url}/#faq`,
+    inLanguage: "he",
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: HOME_QUESTIONS.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: { "@type": "Answer", text: q.answer },
+    })),
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
-      />
+      <JsonLd data={appJsonLd} />
+      <DatasetJsonLd />
+      <JsonLd data={faqJsonLd} />
 
       {/* HERO + CHECK WIDGET */}
       <section className="relative pt-8 sm:pt-14 pb-12 sm:pb-16 border-b border-border">
@@ -90,7 +116,7 @@ export default function HomePage() {
                 מבוסס על data.gov.il
               </p>
               <h1 className="mt-5 text-[34px] sm:text-[46px] lg:text-[54px] leading-[1.08] font-bold tracking-tight">
-                בדיקת <span className="text-brand">תו נכה</span> לפי מספר רכב - חינם וללא הרשמה
+                בדיקת <span className="text-brand">תו נכה</span> לרכב לפי מספר רכב - חינם וללא הרשמה
               </h1>
               <p className="mt-5 text-[17px] sm:text-lg text-muted-foreground leading-relaxed max-w-[58ch]">
                 מזינים מספר רכב, ואנחנו בודקים בזמן אמת מול מאגר המידע הציבורי
@@ -158,14 +184,19 @@ export default function HomePage() {
           />
           <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
             {[
+              { href: "/articles/who-is-eligible-for-tav-nikkeh", label: "מי זכאי לתו נכה? כמה אחוזי נכות צריך?" },
               { href: "/articles/how-to-check-tav-nikkeh-online", label: "איך בודקים תו נכה לפי מספר רכב?" },
               { href: "/articles/check-tav-nikkeh-by-id-number", label: "אפשר לבדוק תו נכה לפי תעודת זהות?" },
               { href: "/articles/ministry-personal-area-guide", label: "איפה בודקים סטטוס, תוקף וחידוש מול משרד התחבורה?" },
               { href: "/articles/tav-nikkeh-public-dataset", label: "מה יש במאגר תווי הנכה - ומתי הוא מתעדכן?" },
               { href: "/articles/parking-permit-vs-tav-nikkeh", label: "מה ההבדל בין תו נכה, תג נכה ותו חניה עירוני?" },
               { href: "/articles/tav-nikkeh-vehicle-change", label: "החלפתי רכב - למה הבדיקה מראה ״לא נמצא״?" },
+              { href: "/articles/renew-tav-nikkeh", label: "איך מחדשים תו נכה, ומה אם התוקף פג?" },
+              { href: "/articles/tav-nikkeh-appeal-after-rejection", label: "הבקשה נדחתה - ערר או בקשה חוזרת?" },
+              { href: "/articles/tav-nikkeh-badge-types", label: "מה ההבדל בין תג ירוק לתג כחול?" },
               { href: "/articles/blue-square-rules-2026", label: "איפה מותר לחנות עם תו? כללי הריבוע הכחול" },
               { href: "/articles/what-tav-nikkeh-actually-gives-you", label: "מה התו מאפשר מעבר לחניה?" },
+              { href: "/dataset", label: "כמה תגים יש בישראל? המאגר במספרים" },
               { href: "/faq", label: "כל השאלות הנפוצות על תו נכה" },
             ].map((l) => (
               <li key={l.href}>

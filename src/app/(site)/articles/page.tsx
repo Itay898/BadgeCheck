@@ -3,7 +3,11 @@ import Link from "next/link";
 import { Container } from "@/components/site/Container";
 import { ArticlesIndexClient } from "@/components/editorial/ArticlesIndexClient";
 import { CategoryFilter } from "@/components/editorial/CategoryFilter";
+import { BreadcrumbJsonLd } from "@/components/editorial/BreadcrumbJsonLd";
+import { WEBSITE_ID } from "@/components/site/SiteJsonLd";
 import { listArticles } from "@/content/articles";
+import { site } from "@/content/site";
+import { JsonLd } from "@/components/site/JsonLd";
 
 export const metadata: Metadata = {
   title: "כל הכתבות על תו נכה - מדריכים, זכויות וחדשות",
@@ -15,8 +19,44 @@ export const metadata: Metadata = {
 export default function ArticlesIndexPage() {
   const list = listArticles();
 
+  // The archive was the only page type on the site without breadcrumbs or a
+  // collection description — an assistant fetching it got 12 bare headlines
+  // and had to make 12 more requests to learn anything. The ItemList carries
+  // each article's name, description and date, so one fetch is enough to know
+  // what the site covers.
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${site.url}/articles#collection`,
+    name: "כל הכתבות על תו נכה",
+    description:
+      "מדריכים, זכויות וחדשות סביב תו נכה בישראל - הגשה, חידוש, חניה ובדיקת תוקף.",
+    url: `${site.url}/articles`,
+    inLanguage: "he",
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: list.length,
+      itemListElement: list.map((a, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${site.url}/articles/${a.slug}`,
+        name: a.title,
+        description: a.dek,
+      })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={collectionJsonLd} />
+      <BreadcrumbJsonLd
+        crumbs={[
+          { name: "ראשי", path: "/" },
+          { name: "כל הכתבות", path: "/articles" },
+        ]}
+      />
+
       <header className="pt-10 sm:pt-14 pb-8 border-b border-border">
         <Container>
           <p className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft text-brand-strong text-[12px] font-semibold py-1 px-2.5">

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sources } from "@/content/site";
 
-const RESOURCE_ID = "c8b9f9c8-4612-4068-934f-d4acd2e3c06e";
+// Shared with the Dataset structured data so the schema always advertises the
+// same table this route actually queries.
+const RESOURCE_ID = sources.datasetResourceId;
 const CKAN_ENDPOINT = "https://data.gov.il/api/3/action/datastore_search";
 
 /**

@@ -72,6 +72,25 @@ export const faqSections: FaqSection[] = [
         cta: { label: "למדריך המלא: בדיקה לפי תעודת זהות", href: "/articles/check-tav-nikkeh-by-id-number" },
       },
       {
+        id: "who-is-eligible",
+        question: "מי זכאי לתו נכה, וכמה אחוזי נכות צריך?",
+        answer: [
+          "הזכאות נגזרת ממוגבלות בניידות, לא מאחוז נכות כשלעצמו. התקנות מגדירות שלושה מצבים שמזכים, ודי בעמידה באחד מהם: נכות ברגליים שמחייבת רכב כאמצעי תנועה, דרגת נכות של 60% לפחות שתנועה בדרכים בלעדיה עלולה לערער את הבריאות, או הגבלה בהליכה שמחייבת כיסא גלגלים.",
+          "לכן 60% נכות אינם כרטיס כניסה אוטומטי - הם מופיעים בתוך תנאי אחד בלבד, ורק יחד עם החלק השני שלו. את דרגת הנכות קובע ביטוח לאומי, אבל את הזכאות לתג קובע משרד התחבורה.",
+        ],
+        source: "התנאים כלשונם - בעמוד ״תג חנייה לנכה״ של המוסד לביטוח לאומי.",
+        cta: { label: "למדריך המלא: מי זכאי לתו נכה", href: "/articles/who-is-eligible-for-tav-nikkeh" },
+      },
+      {
+        id: "btl-or-ministry",
+        question: "ביטוח לאומי או משרד התחבורה - מי מנפיק את התו?",
+        answer: [
+          "משרד התחבורה בלבד. ביטוח לאומי מצהיר על כך במפורש בעמוד שלו: הוא קובע דרגות נכות ומשלם קצבאות, אבל אינו מחלק תגי חניה.",
+          "המשמעות המעשית: הבקשה, הבדיקה, ההחלטה, החידוש והערר - כולם מול משרד התחבורה, גם אם דרגת הנכות שלכם נקבעה בביטוח לאומי.",
+        ],
+        cta: { label: "מי קובע מה - ההסבר המלא", href: "/articles/who-is-eligible-for-tav-nikkeh" },
+      },
+      {
         id: "is-it-free",
         question: "השימוש בכלי עולה כסף?",
         answer: [
@@ -106,8 +125,9 @@ export const faqSections: FaqSection[] = [
         question: "כמה זמן התו תקף?",
         answer: [
           "תקופת התוקף נקבעת בהחלטת משרד התחבורה ועשויה להשתנות בין מקרים. במצבים זמניים, התוקף עשוי להיות קצר יותר.",
-          "תאריך התוקף המדויק מופיע על גבי התו עצמו ובאזור האישי במשרד התחבורה.",
+          "תאריך התוקף המדויק מופיע על גבי התו עצמו ובאזור האישי במשרד התחבורה. המאגר הציבורי אינו כולל אותו כלל, ולכן שום בדיקה חיצונית - גם לא שלנו - יכולה להתריע לכם שהתוקף מסתיים.",
         ],
+        cta: { label: "מתי מחדשים, ומה אם התוקף כבר פג", href: "/articles/renew-tav-nikkeh" },
       },
       {
         id: "online-renewal",
@@ -116,7 +136,7 @@ export const faqSections: FaqSection[] = [
           "משרד התחבורה מאפשר חידוש דיגיטלי בחלק מהמקרים. הזכאות וההיקף תלויים בסוג התיק שלכם - למשל אם יש שינוי באחוזי נכות או החלפה של רכב הזכאות.",
         ],
         source: "מה זמין לחידוש דיגיטלי, ומה דורש פנייה פיזית - באתר משרד התחבורה.",
-        cta: { label: "מדריך החידוש דרך האזור האישי", href: "/articles/ministry-personal-area-guide" },
+        cta: { label: "המדריך המלא לחידוש תו נכה", href: "/articles/renew-tav-nikkeh" },
       },
       {
         id: "application-status",
@@ -235,6 +255,19 @@ export const faqSections: FaqSection[] = [
     ],
   },
 ];
+
+/**
+ * Last substantive revision of the answers above (ISO date), maintained by
+ * hand alongside the copy.
+ *
+ * Single source of truth: the page renders it as a visible "עודכן" line and
+ * the sitemap reads it for `lastmod`. Keeping the two in one place is the
+ * point — a freshness claim the page and the sitemap disagree about is worse
+ * than no claim, and reviewers of official-procedure content are entitled to
+ * know how old the answers are. Bump it when an answer changes, not when the
+ * file is merely touched.
+ */
+export const FAQ_UPDATED_AT = "2026-09-18";
 
 /** All entries flattened, useful for JSON-LD and for a "search FAQ" feature. */
 export function listFaqEntries(): FaqEntry[] {

@@ -2,15 +2,20 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { articles, listArticles } from "@/content/articles";
 import { categories } from "@/content/categories";
+import { FAQ_UPDATED_AT } from "@/content/faq";
 
 /**
  * Last substantive content revision for the hand-written static pages, as
  * ISO dates. Google ignores a `lastmod` it decides is unreliable, and using
  * the build timestamp made every deploy claim that /about and /accessibility
  * had changed — so these are maintained by hand alongside their copy.
+ *
+ * /faq reads its date from the FAQ content module, which is also what the page
+ * renders as its visible "עודכן" line: the sitemap and the page should never
+ * be able to disagree about how fresh those answers are.
  */
 const STATIC_PAGE_UPDATED: Record<string, string> = {
-  "/faq": "2026-09-01",
+  "/faq": FAQ_UPDATED_AT,
   "/about": "2026-05-22",
   "/accessibility": "2026-05-22",
 };
@@ -36,6 +41,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site.url}/`, lastModified: newestArticle, changeFrequency: "weekly", priority: 1 },
     { url: `${site.url}/articles`, lastModified: newestArticle, changeFrequency: "daily", priority: 0.9 },
     { url: `${site.url}/faq`, lastModified: stampFor("/faq"), changeFrequency: "monthly", priority: 0.7 },
+    // The figures on /dataset are re-read daily, so its content genuinely does
+    // change that often — unlike the hand-written pages above.
+    { url: `${site.url}/dataset`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${site.url}/about`, lastModified: stampFor("/about"), changeFrequency: "yearly", priority: 0.4 },
     { url: `${site.url}/accessibility`, lastModified: stampFor("/accessibility"), changeFrequency: "yearly", priority: 0.4 },
     ...categories.map((c) => ({
